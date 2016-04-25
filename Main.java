@@ -1,4 +1,3 @@
-package lbz;
 
 import java.io.File;
 
