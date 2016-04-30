@@ -20,6 +20,15 @@ public class OurSolver {
         return total;
     }
 
+    private static boolean contains(int[] arr, int e) {
+        for (int elem : arr) {
+            if (elem == e) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static void findCycle(DonationGraph g, int u, int depth, int v,
                                   ArrayList<Cycle> found, int[] path) {
         int[] newpath = new int[path.length + 1];
@@ -30,7 +39,9 @@ public class OurSolver {
         }
         if (depth < 4) {
             for (int n : g.neighbors(u)) {
-                findCycle(g, n, depth+1, v, found, newpath);
+                if (!contains(newpath, n)) {
+                    findCycle(g, n, depth+1, v, found, newpath);
+                }
             }
         }
     }
