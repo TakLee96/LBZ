@@ -12,6 +12,11 @@ public class Graph {
         return numVertices;
     }
 
+    private int numEdges;
+    public int getNumEdges() {
+        return numEdges;
+    }
+
     private int[] childVertices;
     public int[] getChildVertices() {
         return childVertices.clone();
@@ -62,6 +67,7 @@ public class Graph {
             String line = br.readLine();
             String[] neighbors;
             int v = 0;
+            numEdges = 0;
             while (line != null) {
                 line = line.trim();
                 neighbors = line.split(" ");
@@ -70,6 +76,7 @@ public class Graph {
                         connected[v][u] = false;
                     } else if (neighbors[u].equals("1")) {
                         connected[v][u] = true;
+                        numEdges += 1;
                     } else {
                         throw new RuntimeException(neighbors[u]);
                     }

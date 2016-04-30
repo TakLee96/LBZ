@@ -14,6 +14,6 @@ public class Main {
         String outfilename = "out/" + args[0] + ".out";
         Graph g = new Graph(infilename);
         Cycle.output(Solver.solve(g), outfilename);
-        System.out.println("Done. Check: [" + outfilename + "].");
+        System.out.println("Done. Check: [" + outfilename + "]");
     }
 }
