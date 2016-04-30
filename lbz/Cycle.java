@@ -1,12 +1,20 @@
 package lbz;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 
 /** A class for cycle, as well as result recording and output generating.
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class Cycle {
+
+    private static final Random r = new Random();
+    private static final int[] rand = new int[]{
+        r.nextInt(500) + 1, r.nextInt(500) + 1,
+        r.nextInt(500) + 1, r.nextInt(500) + 1,
+        r.nextInt(500) + 1
+    };
 
     private int weight;
     public int getWeight() {
@@ -44,8 +52,8 @@ public class Cycle {
     @Override
     public int hashCode() {
         int product = 1;
-        for (int v : vertices) {
-            product *= (v + 1);
+        for (int i = 0; i < vertices.length; i++) {
+            product += (vertices[i] + 1) * rand[i];
         }
         return product;
     }
