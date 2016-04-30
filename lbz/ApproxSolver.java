@@ -15,7 +15,7 @@ public class ApproxSolver {
 
         ArrayList<Cycle> solution = new ArrayList<Cycle>();
 
-        int maxindex; double maxrank, rank;
+        int maxindex = -1; double maxrank, rank;
         while (!effective.isEmpty()) {
             maxrank = 0;
             for (int i : effective) {
