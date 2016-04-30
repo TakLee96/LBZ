@@ -23,7 +23,7 @@ public class CycleGraph extends Graph {
         ArrayList<Cycle> res = new ArrayList<Cycle>(result);
         return res;
     }
-    
+
     private static HashSet<Cycle> helper(int weight, int deg, ArrayList<Integer> path, int root, DonationGraph g, HashSet<Cycle> partialRes) {
         if (deg < 1) {
             return null;
@@ -31,7 +31,7 @@ public class CycleGraph extends Graph {
         for(int i = deg; i>0; i--) {
             for (int vertex: g.neighbors(i)) {
                 int w = 0;
-                if (g.isChild(vertex)) { 
+                if (g.isChild(vertex)) {
                     w=2;
                 }
                 else w=1;
@@ -39,7 +39,7 @@ public class CycleGraph extends Graph {
                 p.add(vertex);
                 if(vertex==path.get(0)) {
                     partialRes.add(new Cycle(p, weight+w));
-                } 
+                }
                 CycleGraph.helper(weight+w, deg-1, p, vertex, g, partialRes);
             }
         }

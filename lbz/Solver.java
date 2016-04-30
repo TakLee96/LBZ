@@ -18,11 +18,11 @@ public class Solver {
         //         return ApproxSolver.solve(cg);
         //     }
         // } else {
-            // TODO: Our Approx Algo
+        //     // TODO: Our Approx Algo
             return OurSolver.solve(g);
         // }
-
-        // TODO: placeholder output for now
+        //
+        // // TODO: placeholder output for now
         // return Arrays.asList(new Cycle[]{
         //     new Cycle(new int[]{1, 2, 3}, 4),
         //     new Cycle(new int[]{4, 5}, 4)
