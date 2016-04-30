@@ -8,12 +8,21 @@ public class CycleGraph extends Graph {
 
     private static ArrayList<Cycle> extractCycles(DonationGraph g) {
         /* TODO: Extract all the cycles in g */
+        int v=g.getNumVertices();
+        for (int i=1; i<v+1; i++){
+            new Cycle();
+        }
         return null;
+    }
+    
+    private ArrayList<Cycle> cycles;
+    public getCycle(int i) {
+        return cycles.get(i);
     }
 
     public CycleGraph(DonationGraph g) {
         super();
-        ArrayList<Cycle> cycles = extractCycles(g);
+        cycles = extractCycles(g);
         numVertices = cycles.size();
         numInEdges = new int[numVertices];
         numOutEdges = new int[numVertices];
