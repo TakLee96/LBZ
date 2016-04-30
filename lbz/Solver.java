@@ -11,8 +11,10 @@ public class Solver {
             CycleGraph cg = new CycleGraph(g);
             if (cg.getNumVertices() < Constants.cycleThreshold) {
                 // TODO: MWIS Exact Algorithm
+                return ExactSolver.solve(cg);
             } else {
                 // TODO: MWIS Approx Algorithm
+                return ApproxSolver.solve(cg);
             }
         } else {
             // TODO: Our Approx Algo
