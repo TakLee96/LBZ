@@ -14,6 +14,7 @@ public class CycleGraph extends Graph {
         for (int i = 1; i < v+1; i++) {
             int root = i;
             ArrayList<Integer> p = new ArrayList<Integer>();
+            p.add(i);
             HashSet<Cycle> cur = CycleGraph.helper(0, 5, p, root, g, result);
             for (Cycle c: cur) {
                 result.add(c);
