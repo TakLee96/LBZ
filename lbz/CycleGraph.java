@@ -16,7 +16,7 @@ public class CycleGraph extends Graph {
         ArrayList<Cycle> cycles = extractCycles(g);
         numVertices = cycles.size();
         numInEdges = new int[numVertices];
-        numOutEdges = new int[numVertices]
+        numOutEdges = new int[numVertices];
         connected = new boolean[numVertices][numVertices];
         Cycle cyclei = null, cyclej = null;
         for (int i = 0; i < numVertices; i++) {
