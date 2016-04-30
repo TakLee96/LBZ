@@ -32,6 +32,30 @@ public class Cycle {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        Cycle other = (Cycle) o;
+        if (vertices.length != other.vertices.length) {
+            return false;
+        }
+        for (int v : vertices) {
+            if (Arrays.binarySearch(other.vertices, v) < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int product = 1;
+        for (int v : vertices) {
+            product *= (v + 1);
+        }
+        return product;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < vertices.length; i++) {
