@@ -12,7 +12,7 @@ public class Main {
         }
         String infilename = "in/" + args[0] + ".in";
         String outfilename = "out/" + args[0] + ".out";
-        Graph g = new Graph(infilename);
+        DonationGraph g = new DonationGraph(infilename);
         Cycle.output(Solver.solve(g), outfilename);
         System.out.println("Done. Check: [" + outfilename + "]");
     }

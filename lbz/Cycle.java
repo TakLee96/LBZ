@@ -1,15 +1,34 @@
 package lbz;
 
+import java.util.Arrays;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 
-/** A class for recording and generating output.
+/** A class for cycle, as well as result recording and output generating.
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class Cycle {
 
+    private int weight;
+    public int getWeight() {
+        return weight;
+    }
+
     private int[] vertices;
-    public Cycle(int[] vs) {
+    public Cycle(int[] vs, int w) {
+        if (vs.length > 5)
+            throw new RuntimeException("cycle too long");
+        Arrays.sort(vs);
         this.vertices = vs;
+        this.weight = w;
+    }
+
+    public boolean shareVertex(Cycle other) {
+        for (int v : vertices) {
+            if (Arrays.binarySearch(other.vertices, v) >= 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

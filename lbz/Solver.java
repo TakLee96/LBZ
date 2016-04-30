@@ -6,15 +6,23 @@ import java.util.Arrays;
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class Solver {
 
-    public static Iterable<Cycle> solve(Graph g) {
-        /* TODO: We need to fill in this part */
+    public static Iterable<Cycle> solve(DonationGraph g) {
+        if (g.getNumEdges() < Constants.v2eThreshold * g.getNumVertices()) {
+            CycleGraph cg = new CycleGraph(g);
+            if (cg.getNumVertices() < Constants.cycleThreshold) {
+                // TODO: MWIS Exact Algorithm
+            } else {
+                // TODO: MWIS Approx Algorithm
+            }
+        } else {
+            // TODO: Our Approx Algo
+        }
 
-        // The code below just generates some example output
-        Cycle[] result = new Cycle[]{
-            new Cycle(new int[]{ 1, 2, 3 }),
-            new Cycle(new int[]{ 4, 5, 6 })
-        };
-        return Arrays.asList(result);
+        // TODO: placeholder output for now
+        return Arrays.asList(new Cycle[]{
+            new Cycle(new int[]{1, 2, 3}, 4),
+            new Cycle(new int[]{4, 5}, 4)
+        });
     }
 
 }
