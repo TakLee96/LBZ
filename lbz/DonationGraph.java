@@ -28,6 +28,8 @@ public class DonationGraph extends Graph {
             String[] neighbors;
             int v = 0;
             numEdges = 0;
+            numInEdges = new int[numVertices];
+            numOutEdges = new int[numVertices];
             while (line != null) {
                 line = line.trim();
                 neighbors = line.split(" ");
@@ -37,6 +39,8 @@ public class DonationGraph extends Graph {
                     } else if (neighbors[u].equals("1")) {
                         connected[v][u] = true;
                         numEdges += 1;
+                        numOutEdges[v] += 1;
+                        numInEdges[u] += 1;
                     } else {
                         throw new RuntimeException(neighbors[u]);
                     }

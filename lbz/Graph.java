@@ -18,30 +18,38 @@ public abstract class Graph {
     public boolean isConnected(int u, int v) {
         return connected[u][v];
     }
+
+    protected int[] numOutEdges = null;
+    public int getNumNeighbors(int v) {
+        return numOutEdges[v];
+    }
+
+    protected int[] numInEdges = null;
+    public int getNumParents(int v) {
+        return numInEdges[v];
+    }
+
     public int[] neighbors(int v) {
-        int[] temp = new int[numVertices];
+        int[] result = new int[getNumNeighbors(v)];
         int index = 0;
         for (int i = 0; i < numVertices; i++) {
             if (isConnected(v, i)) {
-                temp[index] = i;
+                result[index] = i;
                 index += 1;
             }
         }
-        int[] result = new int[index];
-        System.arraycopy(temp, 0, result, 0, index);
         return result;
     }
+
     public int[] parents(int v) {
-        int[] temp = new int[numVertices];
+        int[] result = new int[getNumParents(v)];
         int index = 0;
         for (int i = 0; i < numVertices; i++) {
             if (isConnected(i, v)) {
-                temp[index] = i;
+                result[index] = i;
                 index += 1;
             }
         }
-        int[] result = new int[index];
-        System.arraycopy(temp, 0, result, 0, index);
         return result;
     }
 
