@@ -7,7 +7,8 @@ import java.util.Arrays;
 public class Solver {
 
     public static Iterable<Cycle> solve(DonationGraph g) {
-        if (g.getNumEdges() < Constants.v2eThreshold * g.getNumVertices()) {
+        if (g.getNumVertices() < Constants.numVerticesThreshold ||
+            g.getNumEdges() < Constants.v2eThreshold * g.getNumVertices()) {
             CycleGraph cg = new CycleGraph(g);
             if (cg.getNumVertices() < Constants.cycleThreshold) {
                 // TODO: MWIS Exact Algorithm

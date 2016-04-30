@@ -6,7 +6,7 @@ JFLAGS = -g -Xlint:unchecked -encoding utf8
 
 SRCS = $(wildcard *.java)
 
-CLASSES = $(SRCS:.java=.class)
+CLASSES = $(SRCS:.java= classes/.class)
 
 # Tell make that these are not really files.
 .PHONY: clean default style check 
@@ -21,14 +21,17 @@ style:
 $(CLASSES): sentinel
 
 sentinel: $(SRCS)
-	javac $(JFLAGS) $(SRCS)
+	mkdir -p classes
+	javac $(JFLAGS) $(SRCS) -d classes
 	touch $@
 
 # Run Tests.
 check: compile
-	@echo Replace with testing instructions, as desired.
+	java -classpath classes/ Main 1
+	
 
 # Find and remove all *~ and *.class files.
 clean:
 	$(RM) sentinel *.class *~ 
+	$(RM) sentinel lbz/*.class
 

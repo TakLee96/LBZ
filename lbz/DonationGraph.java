@@ -1,5 +1,6 @@
 package lbz;
 
+import java.util.HashSet;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
@@ -7,9 +8,9 @@ import java.io.BufferedReader;
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class DonationGraph extends Graph {
 
-    private int[] childVertices;
-    public int[] getChildVertices() {
-        return childVertices.clone();
+    private HashSet<Integer> children;
+    public boolean isChild(int v) {
+        return children.contains(v);
     }
 
     public DonationGraph(String filename) {
@@ -19,9 +20,10 @@ public class DonationGraph extends Graph {
             numVertices = Integer.parseInt(br.readLine().trim());
 
             String[] cvs = br.readLine().trim().split(" ");
-            childVertices = new int[cvs.length];
-            for (int i = 0; i < cvs.length; i++)
-                childVertices[i] = Integer.parseInt(cvs[i]);
+            children = new HashSet<Integer>();
+            for (int i = 0; i < cvs.length; i++) {
+                children.add(Integer.parseInt(cvs[i]));
+            }
 
             connected = new boolean[numVertices][numVertices];
             String line = br.readLine();
