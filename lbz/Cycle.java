@@ -38,12 +38,7 @@ public class Cycle {
         if (vertices.length != other.vertices.length) {
             return false;
         }
-        for (int v : vertices) {
-            if (Arrays.binarySearch(other.vertices, v) < 0) {
-                return false;
-            }
-        }
-        return true;
+        return Arrays.equals(vertices, other.vertices);
     }
 
     @Override
