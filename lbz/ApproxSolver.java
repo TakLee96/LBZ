@@ -1,7 +1,7 @@
 package lbz;
 
 import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 /** The approximate solver for MWIS problem.
  * @author Jim Bai, Tak Li, Zirui Zhou */
@@ -13,7 +13,7 @@ public class ApproxSolver {
             effective.add(i);
         }
 
-        LinkedList<Cycle> solution = new LinkedList<Cycle>();
+        ArrayList<Cycle> solution = new ArrayList<Cycle>();
 
         int maxindex; double maxrank, rank;
         while (!effective.isEmpty()) {

@@ -22,6 +22,10 @@ public class Cycle {
     }
 
     private int[] vertices;
+    public int[] getVertices() {
+        return vertices.clone();
+    }
+
     public Cycle(int[] vs, int w) {
         if (vs.length > 5)
             throw new RuntimeException("cycle too long");
