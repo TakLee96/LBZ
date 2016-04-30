@@ -53,6 +53,21 @@ public abstract class Graph {
         return result;
     }
 
+    public void remove(int v) {
+        int[] vn = neighbors(v);
+        int[] pn = parents(v);
+        for (int n : vn) {
+            numInEdges[n] -= 1;
+        }
+        for (int p : pn) {
+            numOutEdges[n] -= 1;
+        }
+        for (int i = 0; i < numVertices; i++) {
+            connected[v][i] = false;
+            connected[i][v] = false;
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -14,9 +14,9 @@ public class CycleGraph extends Graph {
         }
         return null;
     }
-    
+
     private ArrayList<Cycle> cycles;
-    public getCycle(int i) {
+    public Cycle getCycle(int i) {
         return cycles.get(i);
     }
 
