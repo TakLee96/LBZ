@@ -1,6 +1,7 @@
 package lbz;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /** A graph of cycle in DonationGraph.
  * @author Jim Bai, Tak Li, Zirui Zhou */
@@ -9,32 +10,39 @@ public class CycleGraph extends Graph {
     private static ArrayList<Cycle> extractCycles(DonationGraph g) {
         /* TODO: Extract all the cycles in g */
         int v = g.getNumVertices();
-        ArrayList<Cycle> result = new ArrayList<Cycle>();
+        HashSet<Cycle> result = new HashSet<Cycle>();
         for (int i = 1; i < v+1; i++) {
             int root = i;
-            ArrayList<Cycle> cur = CycleGraph.helper(5, new ArrayList<int>, root, g, result);
-            for ()
+            ArrayList<Integer> p = new ArrayList<Integer>();
+            HashSet<Cycle> cur = CycleGraph.helper(0, 5, p, root, g, result);
+            for (Cycle c: cur) {
+                result.add(c);
+            }
         }
-        return null;
+        ArrayList<Cycle> res = new ArrayList<Cycle>(result);
+        return res;
     }
     
-    private static ArrayList<Cycle> helper(int weight, int deg, ArrayList<int> path, int root, DonationGraph g, HashSet<Cycle> partialRes) {
+    private static HashSet<Cycle> helper(int weight, int deg, ArrayList<Integer> path, int root, DonationGraph g, HashSet<Cycle> partialRes) {
+        if (deg < 1) {
+            return null;
+        }
         for(int i = deg; i>0; i--) {
             for (int vertex: g.neighbors(i)) {
                 int w = 0;
-                if (g.isChild(v)) { 
+                if (g.isChild(vertex)) { 
                     w=2;
                 }
                 else w=1;
-                if(vertex==target) {
-                    ArrayList<int> p = new ArrayList<int>();
-                    p.add(vertex);
+                ArrayList<Integer> p = new ArrayList<Integer>(path);
+                p.add(vertex);
+                if(vertex==path.get(0)) {
                     partialRes.add(new Cycle(p, weight+w));
                 } 
-                helper(weight+w, )
+                CycleGraph.helper(weight+w, deg-1, p, vertex, g, partialRes);
             }
         }
-        return null;
+        return partialRes;
     }
 
     private ArrayList<Cycle> cycles;
