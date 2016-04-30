@@ -60,7 +60,7 @@ public abstract class Graph {
             numInEdges[n] -= 1;
         }
         for (int p : pn) {
-            numOutEdges[n] -= 1;
+            numOutEdges[p] -= 1;
         }
         for (int i = 0; i < numVertices; i++) {
             connected[v][i] = false;

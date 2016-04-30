@@ -5,7 +5,23 @@ package lbz;
 public class ExactSolver {
 
     public static Iterable<Cycle> solve(CycleGraph cg) {
-        return null;
+        //int[][] memo = new int[][]
+        Cycle out;
+        for(int i = 0; i < cg.getNumVertices(); i++) {
+            out = cg.getCycle(i);
+            for(int j = 0; j < cg.getNumVertices(); j++) {
+                if(cg.getCycle(j).shareVertex(out) {
+                    
+                }
+            }
+        }
+        return dps(cg);
     }
 
+    public static Iterable<Cycle> dps(CycleGraph g) {
+        if(g.getNumVertices() == 0) {
+            return 0
+        }
+        return null;
+    }
 }
