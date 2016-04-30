@@ -1,5 +1,6 @@
 package lbz;
 
+import java.util.List;
 import java.util.Arrays;
 import java.util.Random;
 import java.io.FileWriter;
@@ -22,11 +23,28 @@ public class Cycle {
     }
 
     private int[] vertices;
+    public int[] getVertices() {
+        return vertices.clone();
+    }
+
     public Cycle(int[] vs, int w) {
         if (vs.length > 5)
             throw new RuntimeException("cycle too long");
         Arrays.sort(vs);
         this.vertices = vs;
+        this.weight = w;
+    }
+
+    public Cycle(List<Integer> vs, int w) {
+        if (vs.size() > 5)
+            throw new RuntimeException("cycle too long");
+        vertices = new int[vs.size()];
+        int index = 0;
+        for (int v : vs) {
+            vertices[index] = v;
+            index += 1;
+        }
+        Arrays.sort(vertices);
         this.weight = w;
     }
 
