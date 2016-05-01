@@ -13,11 +13,10 @@ public class ExactSolver {
     protected static boolean visited[];
     protected static int parts[];
     protected static HashMap<ArrayList, Integer> memo = new HashMap<>();
-    protected static HashMap<ArrayList, ArrayList> track = new HashMap<>();
+    protected static HashMap<ArrayList, ArrayList<Integer>> track = new HashMap<>();
     protected static HashMap<ArrayList, Integer> vertices = new HashMap<>();
 
     public static Iterable<Cycle> solve(CycleGraph cg) {
-        //int[][] memo = new int[][]
         Cycle inner, outer;
         ArrayList<Cycle> result = new ArrayList<>();
         TreeSet<Integer> remove = new TreeSet<>();
@@ -40,26 +39,31 @@ public class ExactSolver {
             }
         }
         visited = new boolean[cg.getNumVertices()];
-        ArrayList<ArrayList> components = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> components = new ArrayList<>();
         ArrayList<Integer> temp;
         ArrayList<Integer> prev;
         for(int i = 0; i < visited.length; i++) {
             visited[i] = false;
         }
-        for(int v: cg.getVertices()) {
+        for(int v = 0; v < cg.getNumVertices(); v++) {
             if(visited[v] == false && !remove.contains(v)) {
-                temp = findComponent(v);
+                temp = findComponent(v, cg);
                 components.add(temp);
             }
         }
-        for(ArrayList<Integr> comp: components) {
+        for(ArrayList<Integer> comp: components) {
             dps(cg, comp);
             temp = comp;
-            while(temp != null) {
+            while(temp != null && temp.size() != 0) {
                 prev = track.get(temp);
-                result.add(cg.getCycle(vertices.get(temp)));
+                if(vertices.get(temp) != null) {
+                    result.add(cg.getCycle(vertices.get(temp)));
+                }
                 temp = prev;
             }
+            memo.clear();
+            track.clear();
+            vertices.clear();
         }
         return result;
     }
@@ -88,10 +92,11 @@ public class ExactSolver {
                 }
             }
         }
+        return row;
     }
 
-    public static Integer dps(CycleGraph , ArrayList<Integer> comp) {
-        if(comp == null) {
+    public static Integer dps(CycleGraph g, ArrayList<Integer> comp) {
+        if(comp == null || comp.size() == 0 ||comp.get(0) == null) {
             return 0;
         }
         int v = comp.get(0);
@@ -101,32 +106,39 @@ public class ExactSolver {
         while (!queue.isEmpty()){
             int u = queue.poll();
             neig.add(u);
-            for (int j : g.neighbors(u)){
-                    queue.offer(j);
+            for (int j : g.neighbors(u)) {
+                queue.offer(j);
             }
         }
         if(!memo.containsKey(comp)) {
             int takeV, notTakeV;
-            ArrayList<Integer> removeV = comp.remove(v);
-            ArrayList<Integer> removeVNeg = comp.removeAll(neig);
+            comp.remove(new Integer(v));
+            ArrayList<Integer> removeV = new ArrayList<>(comp);
+            comp.add(v);
+            comp.removeAll(neig);
+            ArrayList<Integer> removeVNeg = new ArrayList<>(comp);
+            comp.addAll(neig);
             if(memo.containsKey(removeV)) {
                 takeV = memo.get(removeV);
             } else {
-            takeV = dps(g, removeV);
+                takeV = dps(g, removeV);
             }
             if(memo.containsKey(removeVNeg)) {
                 notTakeV = memo.get(removeVNeg);
             } else {
-            notTakeV = dps(g, removeVNeg) + g.getCycle(v).getWeight();
+                notTakeV = dps(g, removeVNeg) + g.getCycle(v).getWeight();
             }
             if(takeV < notTakeV) {
                 memo.put(comp, notTakeV);
                 track.put(comp,removeV);
+                return notTakeV;
             } else {
-                memo.put(comp, TakeV);
+                memo.put(comp, takeV);
                 track.put(comp, removeVNeg);
                 vertices.put(comp, v);
+                return takeV;
             }
         }
+        return memo.get(comp);
     }
 }
