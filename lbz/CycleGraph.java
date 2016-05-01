@@ -52,7 +52,7 @@ public class CycleGraph extends Graph {
     }
 
     /* for debug purposes only */
-    CycleGraph(DonationGraph g, ArrayList<Cycle> cycles) {
+    public CycleGraph(DonationGraph g, ArrayList<Cycle> cycles) {
         super();
         this.cycles = cycles;
         numVertices = cycles.size();
