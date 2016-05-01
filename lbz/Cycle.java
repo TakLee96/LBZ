@@ -151,4 +151,45 @@ public class Cycle {
         }
     }
 
+    public static BufferedWriter beginWriting() {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("solutions.out"));
+            return bw;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void writeOne(BufferedWriter bw, DonationGraph g, Iterable<Cycle> solution) {
+        StringBuilder sb = new StringBuilder();
+        if (Evaluate.score(g, solution) > 0) {
+            throw new RuntimeException("hey, wtf");
+        }
+        int count = 0;
+        for (Cycle c : solution) {
+            sb.append(c.toString());
+            sb.append("; ");
+            count += 1;
+        }
+        String result = "None\n";
+        if (count != 0) {
+            sb.delete(sb.length() - 2, sb.length());
+            sb.append("\n");
+            result = sb.toString();
+        }
+        try {
+            bw.write(result, 0, result.length());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void doneWriting(BufferedWriter bw) {
+        try {
+            bw.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
 }
