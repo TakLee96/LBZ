@@ -17,36 +17,33 @@ public class Cycle {
         r.nextInt(500) + 1
     };
 
-    private int weight;
-    public int getWeight() {
-        return weight;
-    }
-
     private int[] vertices;
     public int[] getVertices() {
         return vertices.clone();
     }
 
-    public Cycle(int[] vs, int w) {
+    public Cycle(int[] vs) {
         if (vs != null && vs.length > 5)
             throw new RuntimeException("cycle too long");
         if (vs != null)
             Arrays.sort(vs);
         this.vertices = vs;
-        this.weight = w;
     }
 
-    public Cycle(List<Integer> vs, int w) {
-        if (vs.size() > 5)
-            throw new RuntimeException("cycle too long");
-        vertices = new int[vs.size()];
-        int index = 0;
-        for (int v : vs) {
-            vertices[index] = v;
-            index += 1;
+    public int weight(DonationGraph g) {
+        int total = 0;
+        for (int v : vertices) {
+            total += (g.isChild(v)) ? 2 : 1;
         }
-        Arrays.sort(vertices);
-        this.weight = w;
+        return total;
+    }
+
+    public int weight(CycleGraph cg) {
+        int total = 0;
+        for (int v : vertices) {
+            total += (cg.isChild(v)) ? 2 : 1;
+        }
+        return total;
     }
 
     public boolean shareVertex(Cycle other) {
@@ -58,15 +55,15 @@ public class Cycle {
         return false;
     }
 
-    public Cycle merge(int[] other, int w) {
-        if (vertices == null) return new Cycle(other, w);
+    public Cycle merge(int[] other) {
+        if (vertices == null) return new Cycle(other);
         int totallength = other.length + vertices.length;
         if (totallength > 5)
             throw new RuntimeException("merged cycle too long");
         int[] merged = new int[totallength];
         System.arraycopy(vertices, 0, merged, 0, vertices.length);
         System.arraycopy(other, 0, merged, vertices.length, other.length);
-        return new Cycle(merged, w + weight);
+        return new Cycle(merged);
     }
 
     @Override
@@ -111,7 +108,9 @@ public class Cycle {
             sb.append("; ");
             count += 1;
         }
-        sb.delete(sb.length() - 2, sb.length());
+        if (count != 0) {
+            sb.delete(sb.length() - 2, sb.length());
+        }
         /* v DEBUG v */
         sb.append("\nAnalysis:");
         sb.append("\n# Vertices: " + g.getNumVertices());

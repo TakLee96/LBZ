@@ -23,14 +23,17 @@ public class DonationGraph extends DirectedGraph {
             BufferedReader br = new BufferedReader(new FileReader(filename));
             int numv = Integer.parseInt(br.readLine().trim());
 
-            String[] cvs = br.readLine().trim().split(" ");
+            String line = br.readLine().trim();
             kids = new HashSet<Integer>();
-            for (int i = 0; i < cvs.length; i++) {
-                kids.add(Integer.parseInt(cvs[i]));
+            if (line.length() != 0) {
+                String[] cvs = line.split(" ");
+                for (int i = 0; i < cvs.length; i++) {
+                    kids.add(Integer.parseInt(cvs[i]));
+                }
             }
 
             connected = new boolean[numv][numv];
-            String line = br.readLine();
+            line = br.readLine();
             String[] neighbors;
             int v = 0;
             while (line != null) {
@@ -61,6 +64,12 @@ public class DonationGraph extends DirectedGraph {
     public DonationGraph(String filename) {
         super(getAdjacencyFromFile(filename));
         children = kids;
+        this.filename = filename;
+    }
+
+    String filename;
+    public DonationGraph clone() {
+        return new DonationGraph(filename);
     }
 
 }

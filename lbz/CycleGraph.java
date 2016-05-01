@@ -12,6 +12,8 @@ public class CycleGraph extends UndirectedGraph {
         int[] path = new int[5];
         for (int i : g.getVertices()) {
             findCycle(g, i, i, 0, 0, path, cycles, new Memo(g.getNumVertices()));
+            if (cycles.size() > Constants.maxSearchCycle)
+                throw new RuntimeException("cycle extraction failed");
         }
         return new ArrayList<Cycle>(cycles);
     }
@@ -42,7 +44,7 @@ public class CycleGraph extends UndirectedGraph {
             m.init(depth, vertex);
             if (g.isConnected(vertex, root)) {
                 int[] newpath = build(path, depth);
-                cycles.add(new Cycle(newpath.clone(), weight));
+                cycles.add(new Cycle(newpath.clone()));
                 m.add(newpath, depth, weight, g);
             }
             if (depth < 4) {
@@ -63,10 +65,17 @@ public class CycleGraph extends UndirectedGraph {
         return cycles;
     }
 
+    private DonationGraph g;
+    public boolean isChild(int v) {
+        return g.isChild(v);
+    }
+
     @SuppressWarnings("unchecked")
     public CycleGraph(DonationGraph g) {
         super();
+        this.g = g;
         cycles = extractCycles(g);
+        System.out.print(" " + cycles.size() + " cycles extracted ");
         numVertices = cycles.size();
         vertices = new HashSet<Integer>();
         neighbors = new HashSet[numVertices];

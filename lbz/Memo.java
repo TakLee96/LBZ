@@ -41,7 +41,7 @@ public class Memo {
     public void build(int vertex, int depth, int[] path, int weight, HashSet<Cycle> cycles) {
         for (int i = depth; i < 5; i++) {
             for (Cycle c : memo[i][vertex]) {
-                cycles.add(c.merge(build(path, depth), weight));
+                cycles.add(c.merge(build(path, depth)));
             }
         }
     }
@@ -50,9 +50,9 @@ public class Memo {
         int[] partial;
         for (int i = depth; i >= 0; i--) {
             partial = buildReverse(path, i);
-            memo[i][path[i]].add(new Cycle(partial, weight));
+            memo[i][path[i]].add(new Cycle(partial));
             weight -= (g.isChild(path[i])) ? 2 : 1;
         }
     }
-    
+
 }

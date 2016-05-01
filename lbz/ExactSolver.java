@@ -42,7 +42,7 @@ public class ExactSolver {
                     set2 = new TreeSet<>();
                     set2.addAll(cg.neighbors(j));
                     set2.add(j);
-                    if(set2.containsAll(set1) && cg.getCycle(i).getWeight() == cg.getCycle(j).getWeight()) {
+                    if(set2.containsAll(set1) && cg.getCycle(i).weight(cg) == cg.getCycle(j).weight(cg)) {
                         //cg.remove(j);
                         remove.add(j);
                         //System.out.println(cg.getCycle(j));
@@ -134,7 +134,7 @@ public class ExactSolver {
                     }
                 }
             }
-            
+
         }
         if(maxDepth != -1) {
             return deep;
@@ -161,7 +161,7 @@ public class ExactSolver {
         }
         return result;
     }
-  
+
     public static boolean isClique(CycleGraph g, TreeSet<Integer> remain) {
         boolean result = true;
         while(!remain.isEmpty()) {
@@ -214,7 +214,7 @@ public class ExactSolver {
             if(memo.containsKey(removeVNeg)) {
                 takeV = memo.get(removeVNeg);
             } else {
-                takeV = dps(g, removeVNeg, remove) + g.getCycle(v).getWeight();
+                takeV = dps(g, removeVNeg, remove) + g.getCycle(v).weight(g);
             }
             //System.out.println("takev is " + takeV);
             //System.out.println("nottakev is " + notTakeV);
