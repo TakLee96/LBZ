@@ -50,7 +50,7 @@ public class ExactSolver {
                 }
             }
         }
-        System.out.println();
+        //System.out.println();
         visited = new boolean[cg.getNumVertices()];
         ArrayList<ArrayList<Integer>> components = new ArrayList<>();
         ArrayList<Integer> temp;
@@ -65,11 +65,11 @@ public class ExactSolver {
                 components.add(temp);
             }
         }
-        System.out.println();
-        System.out.println("finish DFS");
+        //System.out.println();
+        //System.out.println("finish DFS");
         for(ArrayList<Integer> comp: components) {
             visitInitialize(remove);
-            System.out.println("start dps");
+            //System.out.println("start dps");
             //System.out.println(comp.size());
             //System.out.println(comp.get(0));
             dps(cg, comp, remove);
