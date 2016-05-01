@@ -16,6 +16,7 @@ public class CycleGraph extends Graph {
             ArrayList<Integer> p = new ArrayList<Integer>();
             p.add(i);
             HashSet<Cycle> cur = CycleGraph.helper(0, 5, p, root, g, result);
+            %%Make sure there's no duplication
             for (Cycle c: cur) {
                 result.add(c);
             }
@@ -29,17 +30,17 @@ public class CycleGraph extends Graph {
             return null;
         }
         for(int i = deg; i>0; i--) {
-            for (int vertex: g.neighbors(i)) {
+            for (int vertex: g.neighbors(root)) {
                 int w = 0;
                 if (g.isChild(vertex)) {
                     w=2;
                 }
                 else w=1;
                 ArrayList<Integer> p = new ArrayList<Integer>(path);
-                p.add(vertex);
                 if(vertex==path.get(0)) {
                     partialRes.add(new Cycle(p, weight+w));
                 }
+                p.add(vertex);
                 CycleGraph.helper(weight+w, deg-1, p, vertex, g, partialRes);
             }
         }
