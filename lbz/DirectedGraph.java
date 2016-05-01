@@ -1,6 +1,7 @@
 package lbz;
 
 import java.util.HashSet;
+import java.util.Collection;
 
 /** A generic graph.
  * @author Jim Bai, Tak Li, Zirui Zhou */
@@ -52,16 +53,16 @@ public class DirectedGraph {
         return parents[v].size();
     }
 
-    public Iterable<Integer> neighbors(int v) {
+    public Collection<Integer> neighbors(int v) {
         return neighbors[v];
     }
 
-    public Iterable<Integer> parents(int v) {
+    public Collection<Integer> parents(int v) {
         return parents[v];
     }
 
     protected HashSet<Integer> vertices;
-    public Iterable<Integer> getVertices() {
+    public Collection<Integer> getVertices() {
         return vertices;
     }
 
