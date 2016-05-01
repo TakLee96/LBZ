@@ -75,7 +75,6 @@ public class CycleGraph extends UndirectedGraph {
         super();
         this.g = g;
         cycles = extractCycles(g);
-        System.out.print(" " + cycles.size() + " cycles extracted ");
         numVertices = cycles.size();
         vertices = new HashSet<Integer>();
         neighbors = new HashSet[numVertices];

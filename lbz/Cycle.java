@@ -25,8 +25,20 @@ public class Cycle {
     public Cycle(int[] vs) {
         if (vs != null && vs.length > 5)
             throw new RuntimeException("cycle too long");
-        if (vs != null)
+        if (vs != null) {
             Arrays.sort(vs);
+            // TODO: DEBUG
+            for (int i = 0; i < vs.length; i++) {
+                for (int j = i + 1; j < vs.length; j++) {
+                    if (vs[i] == vs[j]) {
+                        for (int v : vs) {
+                            System.out.print(v + " ");
+                        }
+                        throw new RuntimeException("repetition error");
+                    }
+                }
+            }
+        }
         this.vertices = vs;
     }
 
@@ -55,11 +67,21 @@ public class Cycle {
         return false;
     }
 
+    private static boolean contains(int[] arr, int elem) {
+        return Arrays.binarySearch(arr, elem) >= 0;
+    }
+
     public Cycle merge(int[] other) {
         if (vertices == null) return new Cycle(other);
         int totallength = other.length + vertices.length;
         if (totallength > 5)
             throw new RuntimeException("merged cycle too long");
+        Arrays.sort(other);
+        for (int v : vertices) {
+            if (contains(other, v)) {
+                return null;
+            }
+        }
         int[] merged = new int[totallength];
         System.arraycopy(vertices, 0, merged, 0, vertices.length);
         System.arraycopy(other, 0, merged, vertices.length, other.length);

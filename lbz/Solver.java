@@ -9,21 +9,21 @@ public class Solver {
     public static Iterable<Cycle> solve(DonationGraph g) {
         Iterable<Cycle> solution = OurSolver.solve(g.clone());
         if (Evaluate.score(g, solution) == 0) {
-            System.out.print("[OurSolver]");
+            System.out.print("[OurNBSolver] ");
             return solution;
         }
         try {
             CycleGraph cg = new CycleGraph(g);
             if (cg.getNumVertices() > Constants.maxExactCycle) {
-                System.out.print("[ApproxSolver]");
+                System.out.print("[ApprxSolver] ");
                 solution = ApproxSolver.solve(cg);
             } else {
-                System.out.print("[ExactSolver]");
+                System.out.print("[ExactSolver] ");
                 solution = ExactSolver.solve(cg);
             }
+            return solution;
         } catch (Exception e) {
-            System.out.print(e.getMessage());
-        } finally {
+            System.out.print("[OurNBSolver] ");
             return solution;
         }
     }

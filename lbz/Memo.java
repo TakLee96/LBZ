@@ -41,9 +41,22 @@ public class Memo {
     public void build(int vertex, int depth, int[] path, int weight, HashSet<Cycle> cycles) {
         for (int i = depth; i < 5; i++) {
             for (Cycle c : memo[i][vertex]) {
-                cycles.add(c.merge(build(path, depth)));
+                int[] np = build(path, depth);
+                Cycle merged = c.merge(np);
+                if (merged != null) {
+                    cycles.add(merged);
+                }
             }
         }
+    }
+
+    private static String debug(int[] arr) {
+        if (arr == null) return "null";
+        String result = "[";
+        for (int a : arr) {
+            result += a + ",";
+        }
+        return result + "]";
     }
 
     public void add(int[] path, int depth, int weight, DonationGraph g) {

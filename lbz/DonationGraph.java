@@ -36,7 +36,7 @@ public class DonationGraph extends DirectedGraph {
             line = br.readLine();
             String[] neighbors;
             int v = 0;
-            while (line != null) {
+            while (v < numv) {
                 line = line.trim();
                 neighbors = line.split(" ");
                 for (int u = 0; u < numv; u++) {
@@ -46,14 +46,12 @@ public class DonationGraph extends DirectedGraph {
                         connected[v][u] = true;
                     } else {
                         System.out.println("Illegal character: \"" + neighbors[u] + "\"");
-                        throw new RuntimeException();
+                        throw new RuntimeException("@(" + v + ", " + u + ")");
                     }
                 }
                 v += 1;
                 line = br.readLine();
             }
-            if (v != numv)
-                throw new RuntimeException("input file corrupted.");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

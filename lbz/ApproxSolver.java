@@ -27,33 +27,36 @@ public class ApproxSolver {
 
     public static Iterable<Cycle> solve(CycleGraph cg) {
         ArrayList<Cycle> solution = new ArrayList<Cycle>();
-        System.out.println("BEGIN");
         PriorityQueue<Tuple> pq = new PriorityQueue<Tuple>();
+
         Tuple[] tuples = new Tuple[cg.getNumVertices()];
         for (int v : cg.getVertices()) {
             tuples[v] = new Tuple(v, 1.0 * cg.getCycle(v).weight(cg) /
                 (cg.getNumNeighbors(v) + 1));
             pq.offer(tuples[v]);
         }
-        System.out.println("PQ READY");
-        HashSet<Integer> changed; Tuple elem;
+
+        HashSet<Integer> changed; Tuple elem; int v;
         while (!pq.isEmpty()) {
-            System.out.print(pq.size());
             changed = new HashSet<Integer>();
             elem = pq.poll();
             solution.add(cg.getCycle(elem.index));
 
-            for (int n1 : cg.neighbors(elem.index)) {
-                for (int n2 : cg.neighbors(n1)) {
+            Object[] copy = cg.neighbors(elem.index).toArray();
+            for (int n : cg.neighbors(elem.index)) {
+                for (int n2 : cg.neighbors(n)) {
                     changed.add(n2);
                 }
             }
-            changed.remove(elem.index);
 
             for (Object o : cg.neighbors(elem.index).toArray()) {
-                cg.remove(((Integer) o).intValue());
+                v = ((Integer) o).intValue();
+                cg.remove(v);
+                changed.remove(v);
+                pq.remove(tuples[v]);
             }
             cg.remove(elem.index);
+            changed.remove(elem.index);
 
             for (int c : changed) {
                 pq.remove(tuples[c]);

@@ -127,10 +127,9 @@ public class OurSolver {
                     }
                 }
                 for (int v : c.getVertices()) {
-                    changed.remove(v);
-                }
-                for (int v : c.getVertices()) {
                     g.remove(v);
+                    changed.remove(v);
+                    pq.remove(tuples[v]);
                 }
             } else {
                 for (int n : g.neighbors(elem.index)) {

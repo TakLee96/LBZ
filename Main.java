@@ -20,6 +20,16 @@ public class Main {
                 time = System.currentTimeMillis() - time;
                 System.out.println("#" + i + " done. [" + time + "ms]");
             }
+        } else if (args.length == 2) {
+            for (int i = Integer.parseInt(args[0]); i <= Integer.parseInt(args[1]); i++) {
+                String infilename = "in/" + i + ".in";
+                String outfilename = "out/" + i + ".out";
+                DonationGraph g = new DonationGraph(infilename);
+                long time = System.currentTimeMillis();
+                Cycle.output(Solver.solve(g), g, outfilename);
+                time = System.currentTimeMillis() - time;
+                System.out.println("#" + i + " done. [" + time + "ms]");
+            }
         } else {
             String infilename = "in/" + args[0] + ".in";
             String outfilename = "out/" + args[0] + ".out";

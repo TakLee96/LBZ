@@ -1,0 +1,6 @@
+12 13 14 15 16; 2 3; 21 28 29 30 31; 41 42 43 44; 51 55 56 57; 1 4
+Analysis:
+# Vertices: 58
+# Edges: 55
+# Cycles Found: 6
+Score: -38
