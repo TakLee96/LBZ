@@ -87,13 +87,26 @@ public class Cycle {
         return sb.toString();
     }
 
-    public static void output(Iterable<Cycle> cycles, String filename) {
+    public static void output(Iterable<Cycle> cycles, DonationGraph g,
+                              String filename) {
         StringBuilder sb = new StringBuilder();
+        int count = 0;
         for (Cycle c : cycles) {
             sb.append(c.toString());
             sb.append("; ");
+            count += 1;
         }
         sb.delete(sb.length() - 2, sb.length());
+        /* v DEBUG v */
+        sb.append("\nAnalysis:");
+        sb.append("\n# Vertices: " + g.getNumVertices());
+        sb.append("\n# Edges: " + g.getNumEdges());
+        sb.append("\n# Cycles Found: " + count);
+        int score = Evaluate.score(g, cycles);
+        sb.append("\nScore: " + score);
+        if (score < 0)
+            System.out.println("This one is hard!");
+        /* ^ DEBUG ^ */
         String result = sb.toString();
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(filename));
