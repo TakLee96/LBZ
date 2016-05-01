@@ -33,5 +33,5 @@ check: clean compile
 # Find and remove all *~ and *.class files.
 clean:
 	$(RM) sentinel *.class *~ 
-	$(RM) sentinel lbz/*.class
+	$(RM) lbz/*.class
 
