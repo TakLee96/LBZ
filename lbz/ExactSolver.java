@@ -13,7 +13,7 @@ public class ExactSolver {
     protected static boolean visited[];
     protected static int parts[];
     protected static HashMap<ArrayList, Integer> memo = new HashMap<>();
-    protected static HashMap<ArrayList, Integer> track = new HashMap<>();
+    protected static HashMap<ArrayList, ArrayList> track = new HashMap<>();
     protected static HashMap<ArrayList, Integer> vertices = new HashMap<>();
 
     public static Iterable<Cycle> solve(CycleGraph cg) {
