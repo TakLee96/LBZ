@@ -1,6 +1,6 @@
-0 3 4 6; 1 7 9 11; 2 8
+2 1 7 9 8; 0 11 4
 Analysis:
 # Vertices: 12
 # Edges: 52
-# Cycles Found: 3
-Score: -2
+# Cycles Found: 2
+Score: -6

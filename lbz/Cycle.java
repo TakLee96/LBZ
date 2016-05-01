@@ -18,6 +18,7 @@ public class Cycle {
     };
 
     private int[] vertices;
+    private int[] original;
     public int[] getVertices() {
         return vertices.clone();
     }
@@ -26,20 +27,14 @@ public class Cycle {
         if (vs != null && vs.length > 5)
             throw new RuntimeException("cycle too long");
         if (vs != null) {
-            Arrays.sort(vs);
-            // TODO: DEBUG
-            for (int i = 0; i < vs.length; i++) {
-                for (int j = i + 1; j < vs.length; j++) {
-                    if (vs[i] == vs[j]) {
-                        for (int v : vs) {
-                            System.out.print(v + " ");
-                        }
-                        throw new RuntimeException("repetition error");
-                    }
-                }
-            }
+            this.original = vs;
+            int[] copy = vs.clone();
+            this.vertices = copy;
+            Arrays.sort(copy);
+        } else {
+            this.original = null;
+            this.vertices = null;
         }
-        this.vertices = vs;
     }
 
     public int weight(DonationGraph g) {
@@ -111,10 +106,10 @@ public class Cycle {
 
     @Override
     public String toString() {
-        if (vertices == null) return "null";
+        if (original == null) return "null";
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < vertices.length; i++) {
-            sb.append(vertices[i]);
+        for (int i = 0; i < original.length; i++) {
+            sb.append(original[i]);
             sb.append(" ");
         }
         sb.delete(sb.length() - 1, sb.length());
@@ -132,6 +127,8 @@ public class Cycle {
         }
         if (count != 0) {
             sb.delete(sb.length() - 2, sb.length());
+        } else {
+            sb.append("None");
         }
         /* v DEBUG v */
         sb.append("\nAnalysis:");

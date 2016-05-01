@@ -1,6 +1,6 @@
-22 74; 8 12 29 45 80; 40 96; 18 37 76; 1 87; 0 10 15 26 90
+22 74; 17 8 18 40 80; 92 29 26 0 45; 27 70 69 87 1
 Analysis:
 # Vertices: 100
 # Edges: 410
-# Cycles Found: 6
-Score: -87
+# Cycles Found: 4
+Score: -88
