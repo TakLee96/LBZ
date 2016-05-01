@@ -51,9 +51,10 @@ public class CycleGraph extends Graph {
         return cycles.get(i);
     }
 
-    public CycleGraph(DonationGraph g) {
+    /* for debug purposes only */
+    CycleGraph(DonationGraph g, ArrayList<Cycle> cycles) {
         super();
-        cycles = extractCycles(g);
+        this.cycles = cycles;
         numVertices = cycles.size();
         numInEdges = new int[numVertices];
         numOutEdges = new int[numVertices];
@@ -77,6 +78,10 @@ public class CycleGraph extends Graph {
                 }
             }
         }
+    }
+
+    public CycleGraph(DonationGraph g) {
+        this(g, extractCycles(g));
     }
 
 }
