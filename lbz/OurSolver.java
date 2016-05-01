@@ -29,13 +29,20 @@ public class OurSolver {
         return false;
     }
 
+    private static boolean flag = false;
     private static void findCycle(DonationGraph g, int u, int depth, int v,
                                   ArrayList<Cycle> found, int[] path) {
+        if (flag) return;
         int[] newpath = new int[path.length + 1];
         System.arraycopy(path, 0, newpath, 0, path.length);
         newpath[path.length] = u;
         if (g.isConnected(u, v)) {
-            found.add(new Cycle(newpath, weight(g, newpath)));
+            Cycle c = new Cycle(newpath, weight(g, newpath));
+            if (c.getWeight() > 5 || c.getVertices().length == 5) {
+                flag = true;
+                found.clear();
+            }
+            found.add(c);
         }
         if (depth < 4) {
             for (int n : g.neighbors(u)) {
@@ -47,10 +54,14 @@ public class OurSolver {
     }
 
     private static Cycle largestCycle(DonationGraph g, int v) {
+        if (g.getNumNeighbors(v) == 0) {
+            return null;
+        }
         ArrayList<Cycle> found = new ArrayList<Cycle>();
         for (int n : g.neighbors(v)) {
             findCycle(g, n, 1, v, found, new int[]{v});
         }
+        flag = false;
         int maxweight = 0; Cycle maxcycle = null;
         for (Cycle c : found) {
             if (c.getWeight() > maxweight) {
@@ -73,6 +84,7 @@ public class OurSolver {
 
         int min, curr, minIndex = -1; Cycle c;
         while (!effective.isEmpty()) {
+            System.out.println(effective.size());
             min = g.getNumVertices();
             for (int v : effective) {
                 curr = Math.min(g.getNumNeighbors(v), g.getNumParents(v));

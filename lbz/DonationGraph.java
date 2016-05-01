@@ -12,6 +12,9 @@ public class DonationGraph extends Graph {
     public boolean isChild(int v) {
         return children.contains(v);
     }
+    public int getNumChildren() {
+        return children.size();
+    }
 
     public DonationGraph(String filename) {
         super();
