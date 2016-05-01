@@ -5,84 +5,80 @@ import java.util.HashSet;
 
 /** A graph of cycle in DonationGraph.
  * @author Jim Bai, Tak Li, Zirui Zhou */
-public class CycleGraph extends Graph {
+public class CycleGraph extends UndirectedGraph {
 
     private static ArrayList<Cycle> extractCycles(DonationGraph g) {
-        /* TODO: Extract all the cycles in g */
-        int v = g.getNumVertices();
-        HashSet<Cycle> result = new HashSet<Cycle>();
-        for (int i = 1; i < v+1; i++) {
-            int root = i;
-            ArrayList<Integer> p = new ArrayList<Integer>();
-            p.add(i);
-            HashSet<Cycle> cur = CycleGraph.helper(0, 5, p, root, g, result);
-            %%Make sure there's no duplication
-            for (Cycle c: cur) {
-                result.add(c);
-            }
+        HashSet<Cycle> cycles = new HashSet<Cycle>();
+        int[] path = new int[5];
+        for (int i : g.getVertices()) {
+            findCycle(g, i, i, 0, 0, path, cycles);
         }
-        ArrayList<Cycle> res = new ArrayList<Cycle>(result);
-        return res;
+        return new ArrayList<Cycle>(cycles);
     }
 
-    private static HashSet<Cycle> helper(int weight, int deg, ArrayList<Integer> path, int root, DonationGraph g, HashSet<Cycle> partialRes) {
-        if (deg < 1) {
-            return null;
-        }
-        for(int i = deg; i>0; i--) {
-            for (int vertex: g.neighbors(root)) {
-                int w = 0;
-                if (g.isChild(vertex)) {
-                    w=2;
-                }
-                else w=1;
-                ArrayList<Integer> p = new ArrayList<Integer>(path);
-                if(vertex==path.get(0)) {
-                    partialRes.add(new Cycle(p, weight+w));
-                }
-                p.add(vertex);
-                CycleGraph.helper(weight+w, deg-1, p, vertex, g, partialRes);
+    private static int[] build(int[] path, int depth) {
+        int[] result = new int[depth + 1];
+        System.arraycopy(path, 0, result, 0, depth + 1);
+        return result;
+    }
+
+    private static boolean contains(int[] path, int elem, int depth) {
+        for (int i = 0; i < depth; i++) {
+            if (path[i] == elem) {
+                return true;
             }
         }
-        return partialRes;
+        return false;
+    }
+
+    private static void findCycle(
+        DonationGraph g, int vertex, int root, int weight,
+        int depth, int[] path, HashSet<Cycle> cycles) {
+        int w = (g.isChild(vertex)) ? 2 : 1;
+        path[depth] = vertex;
+        if (g.isConnected(vertex, root)) {
+            cycles.add(new Cycle(build(path, depth), weight + w));
+        }
+        if (depth < 4) {
+            for (int u : g.neighbors(vertex)) {
+                if (!contains(path, u, depth)) {
+                    findCycle(g, u, root, weight + w, depth + 1, path, cycles);
+                }
+            }
+        }
     }
 
     private ArrayList<Cycle> cycles;
     public Cycle getCycle(int i) {
         return cycles.get(i);
     }
+    public Iterable<Cycle> getCycles() {
+        return cycles;
+    }
 
-    /* for debug purposes only */
-    public CycleGraph(DonationGraph g, ArrayList<Cycle> cycles) {
+    @SuppressWarnings("unchecked")
+    public CycleGraph(DonationGraph g) {
         super();
-        this.cycles = cycles;
+        cycles = extractCycles(g);
         numVertices = cycles.size();
-        numInEdges = new int[numVertices];
-        numOutEdges = new int[numVertices];
-        connected = new boolean[numVertices][numVertices];
+        vertices = new HashSet<Integer>();
+        neighbors = new HashSet[numVertices];
+        for (int i = 0; i < numVertices; i++) {
+            neighbors[i] = new HashSet<Integer>();
+            vertices.add(i);
+        }
         Cycle cyclei = null, cyclej = null;
         for (int i = 0; i < numVertices; i++) {
             for (int j = i + 1; j < numVertices; j++) {
                 cyclei = cycles.get(i);
                 cyclej = cycles.get(j);
                 if (cyclei.shareVertex(cyclej)) {
-                    connected[i][j] = true;
-                    connected[j][i] = true;
-                    numEdges += 2;
-                    numInEdges[i] += 1;
-                    numInEdges[j] += 1;
-                    numOutEdges[i] += 1;
-                    numOutEdges[j] += 1;
-                } else {
-                    connected[i][j] = false;
-                    connected[j][i] = false;
+                    numEdges += 1;
+                    neighbors[i].add(j);
+                    neighbors[j].add(i);
                 }
             }
         }
-    }
-
-    public CycleGraph(DonationGraph g) {
-        this(g, extractCycles(g));
     }
 
 }
