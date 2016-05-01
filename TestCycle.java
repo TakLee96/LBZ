@@ -12,6 +12,7 @@ public class TestCycle {
         for (int i = 0; i < cg.getNumVertices(); i++) {
             System.out.println(cg.getCycle(i));
         }
+        System.out.println("Score is " + Evaluate.score(g, result));
     }
 
 }
