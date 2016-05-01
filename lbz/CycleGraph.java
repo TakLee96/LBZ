@@ -11,7 +11,7 @@ public class CycleGraph extends UndirectedGraph {
         HashSet<Cycle> cycles = new HashSet<Cycle>();
         int[] path = new int[5];
         for (int i : g.getVertices()) {
-            findCycle(g, i, i, 0, 0, path, cycles);
+            findCycle(g, i, i, 0, 0, path, cycles, new Memo(g.getNumVertices()));
         }
         return new ArrayList<Cycle>(cycles);
     }
@@ -32,17 +32,24 @@ public class CycleGraph extends UndirectedGraph {
     }
 
     private static void findCycle(
-        DonationGraph g, int vertex, int root, int weight,
-        int depth, int[] path, HashSet<Cycle> cycles) {
-        int w = (g.isChild(vertex)) ? 2 : 1;
+        DonationGraph g, int vertex, int root, int weight, int depth,
+        int[] path, HashSet<Cycle> cycles, Memo m) {
+        weight += (g.isChild(vertex)) ? 2 : 1;
         path[depth] = vertex;
-        if (g.isConnected(vertex, root)) {
-            cycles.add(new Cycle(build(path, depth), weight + w));
-        }
-        if (depth < 4) {
-            for (int u : g.neighbors(vertex)) {
-                if (!contains(path, u, depth)) {
-                    findCycle(g, u, root, weight + w, depth + 1, path, cycles);
+        if (m.contains(vertex, depth)) {
+            m.build(vertex, depth, path, weight, cycles);
+        } else {
+            m.init(depth, vertex);
+            if (g.isConnected(vertex, root)) {
+                int[] newpath = build(path, depth);
+                cycles.add(new Cycle(newpath.clone(), weight));
+                m.add(newpath, depth, weight, g);
+            }
+            if (depth < 4) {
+                for (int u : g.neighbors(vertex)) {
+                    if (!contains(path, u, depth)) {
+                        findCycle(g, u, root, weight, depth + 1, path, cycles, m);
+                    }
                 }
             }
         }

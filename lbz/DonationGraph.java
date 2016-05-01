@@ -42,7 +42,8 @@ public class DonationGraph extends DirectedGraph {
                     } else if (neighbors[u].equals("1")) {
                         connected[v][u] = true;
                     } else {
-                        throw new RuntimeException(neighbors[u]);
+                        System.out.println("Illegal character: \"" + neighbors[u] + "\"");
+                        throw new RuntimeException();
                     }
                 }
                 v += 1;

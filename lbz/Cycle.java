@@ -28,9 +28,10 @@ public class Cycle {
     }
 
     public Cycle(int[] vs, int w) {
-        if (vs.length > 5)
+        if (vs != null && vs.length > 5)
             throw new RuntimeException("cycle too long");
-        Arrays.sort(vs);
+        if (vs != null)
+            Arrays.sort(vs);
         this.vertices = vs;
         this.weight = w;
     }
@@ -57,10 +58,22 @@ public class Cycle {
         return false;
     }
 
+    public Cycle merge(int[] other, int w) {
+        if (vertices == null) return new Cycle(other, w);
+        int totallength = other.length + vertices.length;
+        if (totallength > 5)
+            throw new RuntimeException("merged cycle too long");
+        int[] merged = new int[totallength];
+        System.arraycopy(vertices, 0, merged, 0, vertices.length);
+        System.arraycopy(other, 0, merged, vertices.length, other.length);
+        return new Cycle(merged, w + weight);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null) return false;
         Cycle other = (Cycle) o;
+        if (vertices == other.vertices) return true;
         if (vertices.length != other.vertices.length) {
             return false;
         }
@@ -69,6 +82,7 @@ public class Cycle {
 
     @Override
     public int hashCode() {
+        if (vertices == null) return 0;
         int product = 1;
         for (int i = 0; i < vertices.length; i++) {
             product += (vertices[i] + 1) * rand[i];
@@ -78,6 +92,7 @@ public class Cycle {
 
     @Override
     public String toString() {
+        if (vertices == null) return "null";
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < vertices.length; i++) {
             sb.append(vertices[i]);
