@@ -9,14 +9,14 @@ SRCS = $(wildcard *.java)
 CLASSES = $(SRCS:.java= classes/.class)
 
 # Tell make that these are not really files.
-.PHONY: clean default style check 
+.PHONY: clean default style check
 
 default: compile
 
 compile: $(CLASSES)
 
 style:
-	$(STYLEPROG) $(SRCS) 
+	$(STYLEPROG) $(SRCS)
 
 $(CLASSES): sentinel
 
@@ -28,10 +28,10 @@ sentinel: $(SRCS)
 # Run Tests.
 check: clean compile
 	java -classpath classes/ Main 0
-	
+
 
 # Find and remove all *~ and *.class files.
 clean:
-	$(RM) sentinel *.class *~ 
+	$(RM) sentinel *.class *~
 	$(RM) lbz/*.class
-
+	$(RM) out/*.out
