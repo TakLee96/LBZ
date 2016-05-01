@@ -85,7 +85,6 @@ public class OurSolver {
 
         int min, curr, minIndex = -1; Cycle c;
         while (!g.getVertices().isEmpty()) {
-            System.out.println(g.getVertices().size());
             min = g.getNumVertices();
             for (int v : g.getVertices()) {
                 curr = Math.min(g.getNumNeighbors(v), g.getNumParents(v));

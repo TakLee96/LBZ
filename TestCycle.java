@@ -1,5 +1,7 @@
 import lbz.*;
 
+/** Test class for cycle extracting algorithm.
+ * @author Jim Bai, Tak Li, Zirui Zhou */
 public class TestCycle {
 
     public static void main(String[] args) {
@@ -12,7 +14,6 @@ public class TestCycle {
         for (int i = 0; i < cg.getNumVertices(); i++) {
             System.out.println(cg.getCycle(i));
         }
-        System.out.println("Score is " + Evaluate.score(g, result));
     }
 
 }

@@ -119,8 +119,6 @@ public class Cycle {
         sb.append("\n# Cycles Found: " + count);
         int score = Evaluate.score(g, cycles);
         sb.append("\nScore: " + score);
-        if (score < 0)
-            System.out.println("This one is hard!");
         /* ^ DEBUG ^ */
         String result = sb.toString();
         try {
