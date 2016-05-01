@@ -26,12 +26,12 @@ sentinel: $(SRCS)
 	touch $@
 
 # Run Tests.
-check: compile
-	java -classpath classes/ Main 1
+check: clean compile
+	java -classpath classes/ Main 0
 	
 
 # Find and remove all *~ and *.class files.
 clean:
 	$(RM) sentinel *.class *~ 
-	$(RM) sentinel lbz/*.class
+	$(RM) lbz/*.class
 
