@@ -3,7 +3,7 @@ import lbz.*;
 public class TestCycle {
 
     public static void main(String[] args) {
-        DonationGraph g = new DonationGraph("in/305.in");
+        DonationGraph g = new DonationGraph("in/123.in");
         CycleGraph cg = new CycleGraph(g);
         Iterable<Cycle> result = ExactSolver.solve(cg);
         System.out.println();
