@@ -8,12 +8,7 @@ import java.util.ArrayList;
  * @author Jim Bai, Tak Li, Zirui Zhou */
  public class TestOutput {
 
-     public static void main(String[] args) {
-         if (args == null || args.length < 1) {
-             System.out.println("Usage: java TestSolver [0-492]");
-         }
-         String infilename = "in/" + args[0] + ".in";
-         String outfilename = "out/" + args[0] + ".out";
+     private static void check(String infilename, String outfilename) {
          try {
              BufferedReader br = new BufferedReader(new FileReader(outfilename));
              String line = br.readLine();
@@ -33,6 +28,27 @@ import java.util.ArrayList;
              }
          } catch (Exception e) {
              e.printStackTrace();
+         }
+     }
+
+     public static void main(String[] args) {
+         if (args == null || args.length < 1) {
+             System.out.println("Usage: java TestSolver [0-492] [a/e/o/t]");
+             return;
+         }
+         if (args[0].equals("all")) {
+             for (int i = 1; i <= 492; i++) {
+                 check("in/"+i+".in", "out/"+i+".out");
+             }
+         } else {
+             String infilename = "in/" + args[0] + ".in";
+             String outfilename;
+             if (args.length == 2) {
+                 outfilename = "out/" + args[0] + "." + args[1] + ".out";
+             } else {
+                 outfilename = "out/" + args[0] + ".out";
+             }
+             check(infilename, outfilename);
          }
      }
 

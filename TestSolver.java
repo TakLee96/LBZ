@@ -10,6 +10,7 @@ import lbz.*;
          }
          Iterable<Cycle> solution = null;
          DonationGraph g = new DonationGraph("in/" + args[1] + ".in");
+         DonationGraph copy = g.clone();
          long time = System.currentTimeMillis();
          switch (args[0]) {
              case "o": solution = OurSolver.solve(g); break;
@@ -19,7 +20,7 @@ import lbz.*;
              default: System.out.println("Usage: java TestSolver [o/e/a] [0-492]"); return;
          }
          String outfilename = "out/" + args[1] + "." + args[0] + ".out";
-         Cycle.output(solution, g, outfilename);
+         Cycle.output(solution, copy, outfilename);
          time = System.currentTimeMillis() - time;
          System.out.println("Done. Check: (" + outfilename + ") [" + time + "ms]");
      }
