@@ -11,9 +11,7 @@ public class TestCycle {
         }
         DonationGraph g = new DonationGraph("in/" + args[0] + ".in");
         CycleGraph cg = new CycleGraph(g);
-        for (int i = 0; i < cg.getNumVertices(); i++) {
-            System.out.println(cg.getCycle(i));
-        }
+        System.out.println("# Cycles: " + cg.getNumVertices());
     }
 
 }

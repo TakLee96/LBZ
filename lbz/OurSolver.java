@@ -4,10 +4,13 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.Random;
 
 /** The approximate algorithm that directly solves g
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class OurSolver {
+
+    private static Random random = new Random(System.currentTimeMillis());
 
     private static Cycle largestCycle(DonationGraph g, int v) {
         if (g.getNumNeighbors(v) == 0) {
@@ -88,14 +91,28 @@ public class OurSolver {
         }
     }
 
+    private static int rank(DonationGraph g, int v) {
+        //return g.getNumNeighbors(v) * g.getNumParents(v) + 10 * ((g.isChild(v)) ? 2 : 1);
+        return random.nextInt(100000);
+    }
+
     public static Iterable<Cycle> solve(DonationGraph g) {
         ArrayList<Cycle> solution = new ArrayList<Cycle>();
         PriorityQueue<Tuple> pq = new PriorityQueue<Tuple>();
 
+        ArrayList<Integer> toremove = new ArrayList<Integer>();
+        for (int v : g.getVertices()) {
+            if (g.getNumNeighbors(v) == 0 || g.getNumParents(v) == 0) {
+                toremove.add(v);
+            }
+        }
+        for (int v : toremove) {
+            g.remove(v);
+        }
+
         Tuple[] tuples = new Tuple[g.getNumVertices()];
         for (int v : g.getVertices()) {
-            tuples[v] = new Tuple(v,
-                Math.min(g.getNumNeighbors(v), g.getNumParents(v)));
+            tuples[v] = new Tuple(v, rank(g, v));
             pq.offer(tuples[v]);
         }
 
@@ -124,8 +141,7 @@ public class OurSolver {
             }
             for (int ch : changed) {
                 pq.remove(tuples[ch]);
-                tuples[ch] = new Tuple(ch,
-                    Math.min(g.getNumNeighbors(ch), g.getNumParents(ch)));
+                tuples[ch] = new Tuple(ch, rank(g, ch));
                 pq.offer(tuples[ch]);
             }
         }

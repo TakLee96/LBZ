@@ -7,27 +7,32 @@ import java.util.Arrays;
 public class Solver {
 
     public static boolean isbest = false;
+
     public static Iterable<Cycle> solve(DonationGraph g) {
+        return solve(g, false);
+    }
+
+    public static Iterable<Cycle> solve(DonationGraph g, boolean silent) {
         isbest = false;
         Iterable<Cycle> solution = OurSolver.solve(g.clone());
         if (Evaluate.score(g, solution) == 0) {
-            System.out.print("[OurNBSolver] ");
+            if (!silent) System.out.print("[OurNBSolver] ");
             isbest = true;
             return solution;
         }
         try {
             CycleGraph cg = new CycleGraph(g.clone());
             if (cg.getNumVertices() > Constants.maxExactCycle) {
-                System.out.print("[ApprxSolver] ");
+                if (!silent) System.out.print("[ApprxSolver] ");
                 solution = ApproxSolver.solve(cg);
             } else {
-                System.out.print("[ExactSolver] ");
-                isbest = true;
-                solution = ExactSolver.solve(cg);
+               if (!silent) System.out.print("[ExactSolver] ");
+               isbest = true;
+               solution = ExactSolver.solve(cg);
             }
             return solution;
         } catch (Exception e) {
-            System.out.print("[OurSBSolver] ");
+            if (!silent) System.out.print("[OurSBSolver] ");
             return solution;
         }
     }

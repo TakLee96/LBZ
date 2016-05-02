@@ -4,8 +4,8 @@ package lbz;
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class Constants {
 
-    public static final int maxSearchCycle = 100;
+    public static final int maxSearchCycle = 1;
 
-    public static final int maxExactCycle = 50;
+    public static final int maxExactCycle = 1;
 
 }

@@ -8,7 +8,7 @@ import java.util.TreeSet;
 /** The exact solver for MWIS problem by Tak.
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class ExactSolverTak {
-    
+
     CycleGraph cg;
     LinkedHashSet<Cycle> result;
     private ExactSolverTak(CycleGraph cg) {
@@ -40,10 +40,15 @@ public class ExactSolverTak {
         }
 
         System.out.println("# of Connected Component: " + ccs.size());
+        for (TreeSet<Integer> cc : ccs) {
+            System.out.print(cc.size() + " ");
+        }
+        System.out.println();
 
         LinkedHashSet<Cycle> solution = new LinkedHashSet<Cycle>();
         for (TreeSet<Integer> cc : ccs) {
             solution.addAll(solve(cc));
+            System.out.println("BOOM");
         }
         result = solution;
     }

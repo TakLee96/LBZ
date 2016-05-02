@@ -7,20 +7,20 @@ import java.util.LinkedHashSet;
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class CycleGraph extends UndirectedGraph {
 
-    private static ArrayList<Cycle> extractCycles(DonationGraph g) {
+    private ArrayList<Cycle> extractCycles() {
         LinkedHashSet<Cycle> cycles = new LinkedHashSet<Cycle>();
         int[] path = new int[5];
         for (int i : g.getVertices()) {
-            findCycle(g, i, i, 0, 0, path, cycles, new Memo(g.getNumVertices()));
-            if (cycles.size() > Constants.maxSearchCycle)
-                throw new RuntimeException("cycle extraction failed");
+            findCycle(i, i, 0, 0, path, cycles, new Memo(g.getNumVertices()));
         }
         return new ArrayList<Cycle>(cycles);
     }
 
-    private static void findCycle(
-        DonationGraph g, int vertex, int root, int weight, int depth,
+    private void findCycle(
+        int vertex, int root, int weight, int depth,
         int[] path, LinkedHashSet<Cycle> cycles, Memo m) {
+        if (cycles.size() > Constants.maxSearchCycle)
+            throw new RuntimeException("cycle extraction failed");
         weight += (g.isChild(vertex)) ? 2 : 1;
         path[depth] = vertex;
         if (m.contains(vertex, depth)) {
@@ -35,7 +35,7 @@ public class CycleGraph extends UndirectedGraph {
             if (depth < 4) {
                 for (int u : g.neighbors(vertex)) {
                     if (!ArrayUtils.contains(path, u, depth)) {
-                        findCycle(g, u, root, weight, depth + 1, path, cycles, m);
+                        findCycle(u, root, weight, depth + 1, path, cycles, m);
                     }
                 }
             }
@@ -62,7 +62,7 @@ public class CycleGraph extends UndirectedGraph {
     public CycleGraph(DonationGraph g) {
         super();
         this.g = g;
-        cycles = extractCycles(g);
+        cycles = extractCycles();
         numVertices = cycles.size();
         vertices = new LinkedHashSet<Integer>();
         neighbors = new LinkedHashSet[numVertices];

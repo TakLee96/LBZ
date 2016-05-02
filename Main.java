@@ -10,23 +10,29 @@ public class Main {
     private static void test(int i) {
         File f = new File("best/" + i + ".out");
         if (f.exists() && !f.isDirectory()) {
-            System.out.println("[           ] #" + i + " done. Best already exists.");
+            if (!silent) {
+                System.out.println("[           ] #" + i + " done. Best already exists.");
+            }
             return;
         }
         String infilename = "in/" + i + ".in";
         String outfilename = "out/" + i + ".out";
         DonationGraph g = new DonationGraph(infilename);
         long time = System.currentTimeMillis();
-        Cycle.output(Solver.solve(g), g, outfilename);
+        Cycle.output(Solver.solve(g, silent), g, outfilename);
         time = System.currentTimeMillis() - time;
-        System.out.println("#" + i + " done. Didn't break record.");
+        if (!silent) {
+            System.out.println("#" + i + " done. Didn't break record.");
+        }
     }
 
+    private static boolean silent = false;
     public static void main(String[] args) {
         if (args == null || args.length == 0) {
             System.out.println("Please enter instance number [0-492]");
             return;
         }
+        silent = args.length == 2 && args[1].equals("-q");
         if (args[0].equals("all")) {
             for (int i = 1; i <= 492; i++) {
                 test(i);
