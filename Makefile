@@ -45,3 +45,6 @@ allclean:
 new:
 	$(RM) *.class lbz/*.class
 	javac *.java -Xlint:unchecked
+
+carefulremovebest:
+	$(RM) best/*

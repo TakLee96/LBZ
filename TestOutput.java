@@ -11,8 +11,12 @@ import java.util.ArrayList;
      private static void check(String infilename, String outfilename) {
          try {
              BufferedReader br = new BufferedReader(new FileReader(outfilename));
-             String line = br.readLine();
-             String[] cycles = line.trim().split(";");
+             String line = br.readLine().trim();
+             if (line.equals("None")) {
+                 System.out.println("OK");
+                 return;
+             }
+             String[] cycles = line.split(";");
              ArrayList<Cycle> list = new ArrayList<Cycle>();
              for (String c : cycles) {
                  String[] cycle = c.trim().split(" ");

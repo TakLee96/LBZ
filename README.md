@@ -1,3 +1,3 @@
 # LBZ
 
-- Could improve hashCode of Cycle
+- Instances slow so far: 111, 148

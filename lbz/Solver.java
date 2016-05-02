@@ -6,10 +6,13 @@ import java.util.Arrays;
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class Solver {
 
+    public static boolean isbest = false;
     public static Iterable<Cycle> solve(DonationGraph g) {
+        isbest = false;
         Iterable<Cycle> solution = OurSolver.solve(g.clone());
         if (Evaluate.score(g, solution) == 0) {
             System.out.print("[OurNBSolver] ");
+            isbest = true;
             return solution;
         }
         try {
@@ -19,6 +22,7 @@ public class Solver {
                 solution = ApproxSolver.solve(cg);
             } else {
                 System.out.print("[ExactSolver] ");
+                isbest = true;
                 solution = ExactSolver.solve(cg);
             }
             return solution;

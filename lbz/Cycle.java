@@ -3,8 +3,11 @@ package lbz;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Random;
+import java.io.File;
 import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.BufferedWriter;
+import java.io.BufferedReader;
 
 /** A class for cycle, as well as result recording and output generating.
  * @author Jim Bai, Tak Li, Zirui Zhou */
@@ -109,6 +112,20 @@ public class Cycle {
         return true;
     }
 
+    private static int readscore(String filename) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filename));
+            String line = null;
+            for (int i = 0; i < 6; i++) {
+                line = br.readLine();
+            }
+            return Integer.parseInt(line.trim().split(":")[1].trim());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 213;
+        }
+    }
+
     public static void output(Iterable<Cycle> cycles, DonationGraph g,
                               String filename) {
         StringBuilder sb = new StringBuilder();
@@ -133,6 +150,22 @@ public class Cycle {
         /* ^ DEBUG ^ */
         String result = sb.toString();
         try {
+            String[] two = filename.split("/");
+            if (Solver.isbest) {
+                System.out.println("NEW BEST FOUND FOR " + two[1]);
+                String newname = "best/" + two[1];
+                BufferedWriter bw = new BufferedWriter(new FileWriter(newname));
+                bw.write(result, 0, result.length());
+                bw.close();
+            }
+            String record = "record/" + two[1];
+            File f = new File(record);
+            if (!(f.exists() && !f.isDirectory()) || score > readscore(record)) {
+                System.out.println("NEW RECORD FOUND FOR " + two[1]);
+                BufferedWriter bw = new BufferedWriter(new FileWriter(record));
+                bw.write(result, 0, result.length());
+                bw.close();
+            }
             BufferedWriter bw = new BufferedWriter(new FileWriter(filename));
             bw.write(result, 0, result.length());
             bw.close();

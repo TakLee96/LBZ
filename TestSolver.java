@@ -7,6 +7,7 @@ import lbz.*;
      public static void main(String[] args) {
          if (args == null || args.length < 2) {
              System.out.println("Usage: java TestSolver [o/e/a] [0-492]");
+             return;
          }
          Iterable<Cycle> solution = null;
          DonationGraph g = new DonationGraph("in/" + args[1] + ".in");

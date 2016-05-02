@@ -1,0 +1,6 @@
+0 2 3 4; 1 8 11 6; 5 9; 7 10
+Analysis:
+# Vertices: 12
+# Edges: 35
+# Cycles Found: 4
+Score: 0
