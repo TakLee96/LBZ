@@ -6,6 +6,6 @@ public class Constants {
 
     public static final int maxSearchCycle = 10000;
 
-    public static final int maxExactCycle = 50;
+    public static final int maxExactCycle = 100;
 
 }
