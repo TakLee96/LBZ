@@ -23,7 +23,7 @@ public class Solver {
             }
             return solution;
         } catch (Exception e) {
-            System.out.print("[OurNBSolver] ");
+            System.out.print("[OurSBSolver] ");
             return solution;
         }
     }
