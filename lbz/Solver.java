@@ -22,7 +22,7 @@ public class Solver {
         }
         try {
             CycleGraph cg = new CycleGraph(g.clone());
-            if (cg.dead) {
+            if(cg.dead) {
                 throw new RuntimeException();
             }
             if (cg.getNumVertices() > Constants.maxExactCycle) {

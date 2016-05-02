@@ -102,7 +102,7 @@ public class OurSolver {
         for (int p : g.parents(v)) {
             ptotal += g.weight(p);
         }
-        return ntotal * ptotal - random.nextInt(ntotal * ptotal + 1);
+        return ntotal * ptotal + random.nextInt(ntotal * ptotal + 1);
     }
 
     public static Iterable<Cycle> solve(DonationGraph g) {
