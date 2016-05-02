@@ -2,6 +2,8 @@ import lbz.*;
 
 import java.util.ArrayList;
 import java.io.File;
+import java.io.PrintStream;
+import java.io.OutputStream;
 
 /** Jim and Tak's competition of ExactSolver.
  * @author Jim Bai, Tak Li, Zirui Zhou */
@@ -29,6 +31,13 @@ public class TestTimedExact {
     }
 
     public static void main(String[] args) {
+        System.setErr(new PrintStream(new OutputStream() {
+            public void write(int b) {
+                //DO NOTHING
+            }
+        }));
+
+
         File folder = new File("record");
         File[] records = folder.listFiles();
         for (int i = 0; i < records.length; i++) {
@@ -42,10 +51,10 @@ public class TestTimedExact {
             long begin = System.currentTimeMillis();
             boolean timedOut = false;
             long elapsed = 0;
-            while (elapsed < 5000 && t.isAlive()) {
+            while (elapsed < 10000 && t.isAlive()) {
                 elapsed = System.currentTimeMillis() - begin;
             }
-            if (elapsed >= 5000) {
+            if (elapsed >= 10000 || solution.isEmpty()) {
                 System.out.println(" timed out");
                 t.interrupt();
             } else {

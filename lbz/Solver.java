@@ -30,8 +30,8 @@ public class Solver {
                 solution = ApproxSolver.solve(cg);
             } else {
                if (!silent) System.out.print("[ExactSolver] ");
-               isbest = true;
                solution = ExactSolver.solve(cg);
+               isbest = true;
             }
             return solution;
         } catch (Exception e) {
