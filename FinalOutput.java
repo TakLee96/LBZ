@@ -4,37 +4,39 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.File;
 
 /** Driver class for LBZ searching algorithm.
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class FinalOutput {
 
+    private static boolean exists(String path) {
+        File f = new File(path);
+        return f.exists() && !f.isDirectory();
+    }
+
     public static void main(String[] args) {
-        if (args != null && args.length > 0) {
-            try {
-                BufferedWriter bw = new BufferedWriter(new FileWriter("solutions.out"));
-                for (int i = 1; i <= 492; i++) {
-                    BufferedReader br = new BufferedReader(new FileReader("out/" + i + ".out"));
-                    String line = br.readLine().trim();
-                    br.close();
-                    line += "\n";
-                    bw.write(line, 0, line.length());
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("solutions.out"));
+            BufferedReader br = null;
+            for (int i = 1; i <= 492; i++) {
+                if (exists("best/" + i + ".out")) {
+                    br = new BufferedReader(new FileReader("best/" + i + ".out"));
+                } else if (exists("record/" + i + ".out")) {
+                    br = new BufferedReader(new FileReader("record/" + i + ".out"));
+                } else {
+                    throw new RuntimeException("no best or record found for " + i);
                 }
-                bw.close();
-            } catch (Exception e) {
-                throw new RuntimeException(e.getMessage());
+                String line = br.readLine().trim();
+                br.close();
+                line += "\n";
+                bw.write(line, 0, line.length());
             }
-            return;
+            bw.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
-        BufferedWriter bw = Cycle.beginWriting();
-        for (int i = 1; i <= 492; i++) {
-            String filename = "in/" + i + ".in";
-            DonationGraph g = new DonationGraph(filename);
-            long time = System.currentTimeMillis();
-            Cycle.writeOne(bw, g, Solver.solve(g));
-            time = System.currentTimeMillis() - time;
-            System.out.println("#" + i + " done. [" + time + "ms]");
-        }
+        return;
     }
 
 }

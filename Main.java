@@ -10,7 +10,7 @@ public class Main {
     private static void test(int i) {
         File f = new File("best/" + i + ".out");
         if (f.exists() && !f.isDirectory()) {
-            System.out.println("[           ] #" + i + " done. Best already exist.");
+            System.out.println("[           ] #" + i + " done. Best already exists.");
             return;
         }
         String infilename = "in/" + i + ".in";
