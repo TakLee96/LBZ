@@ -10,7 +10,7 @@ public class Main {
     private static void test(int i) {
         File f = new File("best/" + i + ".out");
         if (f.exists() && !f.isDirectory()) {
-            System.out.println("#" + i + " done. Copied from best.");
+            System.out.println("[           ] #" + i + " done. Best already exist.");
             return;
         }
         String infilename = "in/" + i + ".in";
@@ -19,7 +19,7 @@ public class Main {
         long time = System.currentTimeMillis();
         Cycle.output(Solver.solve(g), g, outfilename);
         time = System.currentTimeMillis() - time;
-        System.out.println("#" + i + " done. [" + time + "ms]");
+        System.out.println("#" + i + " done. Didn't break record.");
     }
 
     public static void main(String[] args) {

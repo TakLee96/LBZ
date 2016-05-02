@@ -32,7 +32,10 @@ public class Test {
             if (existRecord(i)) {
                 System.out.print("RECORD\n");
             } else {
-                System.out.print("\n");
+                System.out.print("      \n");
+            }
+            if (existBest(i) && existRecord(i)) {
+                System.out.println("REDUNDANT ENTRY ABOVE!");
             }
         }
     }

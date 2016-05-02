@@ -151,20 +151,23 @@ public class Cycle {
         String result = sb.toString();
         try {
             String[] two = filename.split("/");
+            String record = "record/" + two[1];
+            File rf = new File(record);
             if (Solver.isbest) {
-                System.out.println("NEW BEST FOUND FOR " + two[1]);
+                System.out.println("SHIT!!! NEW BEST FOUND FOR " + two[1]);
                 String newname = "best/" + two[1];
                 BufferedWriter bw = new BufferedWriter(new FileWriter(newname));
                 bw.write(result, 0, result.length());
                 bw.close();
-            }
-            String record = "record/" + two[1];
-            File f = new File(record);
-            if (!(f.exists() && !f.isDirectory()) || score > readscore(record)) {
-                System.out.println("NEW RECORD FOUND FOR " + two[1]);
-                BufferedWriter bw = new BufferedWriter(new FileWriter(record));
-                bw.write(result, 0, result.length());
-                bw.close();
+                if (rf.exists() && !rf.isDirectory())
+                    rf.delete();
+            } else {
+                if (!(rf.exists() && !rf.isDirectory()) || score > readscore(record)) {
+                    System.out.println("SHIT!!! NEW RECORD FOUND FOR " + two[1]);
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(record));
+                    bw.write(result, 0, result.length());
+                    bw.close();
+                }
             }
             BufferedWriter bw = new BufferedWriter(new FileWriter(filename));
             bw.write(result, 0, result.length());
