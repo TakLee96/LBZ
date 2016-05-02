@@ -99,8 +99,10 @@ public class Cycle {
             if (!g.isConnected(vertices[i], vertices[j])) {
                 System.out.println("In cycle [" + toString() + "], edge (" +
                 vertices[i] + "->" + vertices[j] + ") does not exist in original graph");
+                return false;
             }
         }
+        return true;
     }
 
     public static void output(Iterable<Cycle> cycles, DonationGraph g,
