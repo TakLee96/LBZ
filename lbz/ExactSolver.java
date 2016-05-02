@@ -13,9 +13,9 @@ import java.util.HashMap;
 public class ExactSolver {
     protected static boolean visited[];
     protected static int parts[];
-    protected static HashMap<ArrayList, Integer> memo = new HashMap<>();
-    protected static HashMap<ArrayList, ArrayList<Integer>> track = new HashMap<>();
-    protected static HashMap<ArrayList, Integer> vertices = new HashMap<>();
+    protected static HashMap<TreeSet<Integer>, Integer> memo = new HashMap<>();
+    protected static HashMap<TreeSet<Integer>, TreeSet<Integer>> track = new HashMap<>();
+    protected static HashMap<TreeSet<Integer>, Integer> vertices = new HashMap<>();
 
     public static Iterable<Cycle> solve(CycleGraph cg) {
         Cycle inner, outer;
@@ -24,38 +24,48 @@ public class ExactSolver {
         TreeSet<Integer> remove = new TreeSet<>();
         Set<Integer> set1 = new TreeSet<>();
         Set<Integer> set2 = new TreeSet<>();
+        System.out.println("remove dominate");
+//        for(int i = 0; i < cg.getNumVertices(); i++) {
+//                if(remove.contains(i)) {
+//                    continue;
+//                }
+//                set1 = new TreeSet<>();
+//                set1.addAll(cg.neighbors(i));
+//                set1.add(i);
+//                for(int j = i + 1; j < cg.getNumVertices(); j++) {
+//                    if(remove.contains(j)) {
+//                        continue;
+//                    }
+//                    set2 = new TreeSet<>();
+//                    set2.addAll(cg.neighbors(j));
+//                    set2.add(j);
+//                    if(set2.containsAll(set1) && cg.getCycle(i).weight(cg) == cg.getCycle(j).weight(cg)) {
+//                        remove.add(j);
+//                        //cg.remove(j);
+//                        System.out.println(cg.getCycle(j));
+//                    }
+//                }
+//            
+//        }
+        ArrayList<Integer> debug = new ArrayList<>();
+        System.out.println("remove cycle");
         for(int i = 0; i < cg.getNumVertices(); i++) {
             if (cg.getNumNeighbors(i) == 0) {
                 result.add(cg.getCycle(i));
+                //System.out.println(cg.getCycle(i) + "\n");
+                System.out.println(i);
                 remove.add(i);
-            } else {
-                if(remove.contains(i)) {
-                    continue;
-                }
-                set1 = new TreeSet<>();
-                set1.addAll(cg.neighbors(i));
-                set1.add(i);
-                for(int j = i + 1; j < cg.getNumVertices(); j++) {
-                    if(remove.contains(j)) {
-                        continue;
-                    }
-                    set2 = new TreeSet<>();
-                    set2.addAll(cg.neighbors(j));
-                    set2.add(j);
-                    if(set2.containsAll(set1) && cg.getCycle(i).weight(cg) == cg.getCycle(j).weight(cg)) {
-                        //cg.remove(j);
-                        remove.add(j);
-                        //System.out.println(cg.getCycle(j));
-                    }
-                }
+                cg.remove(i);
+                debug.add(i);
             }
         }
-        //System.out.println();
+        System.out.println();
         visited = new boolean[cg.getNumVertices()];
-        ArrayList<ArrayList<Integer>> components = new ArrayList<>();
-        ArrayList<Integer> temp;
-        ArrayList<Integer> prev;
+        ArrayList<TreeSet<Integer>> components = new ArrayList<>();
+        TreeSet<Integer> temp;
+        TreeSet<Integer> prev;
         visitInitialize(remove);
+        System.out.println("split parts");
         for(int v = 0; v < cg.getNumVertices(); v++) {
             if(visited[v] == false && !remove.contains(v)) {
                 temp = findComponent(v, cg, -1);
@@ -63,11 +73,13 @@ public class ExactSolver {
                     //System.out.println(temp.get(i));
                 //}
                 components.add(temp);
+                System.out.println("part size " + temp.size());
             }
         }
         //System.out.println();
-        //System.out.println("finish DFS");
-        for(ArrayList<Integer> comp: components) {
+        //System.out.println("there are " + components.size() +" parts");
+        System.out.println("add vertices");
+        for(TreeSet<Integer> comp: components) {
             visitInitialize(remove);
             //System.out.println("start dps");
             //System.out.println(comp.size());
@@ -78,14 +90,29 @@ public class ExactSolver {
             while(temp != null && temp.size() != 0) {
                 prev = track.get(temp);
                 if(vertices.get(temp) != null) {
+                    System.out.println(vertices.get(temp));
+                    debug.add(vertices.get(temp));
                     result.add(cg.getCycle(vertices.get(temp)));
                 }
                 temp = prev;
             }
+            System.out.println();
             memo.clear();
             track.clear();
             vertices.clear();
         }
+        System.out.println();
+        System.out.println("debug");
+        ArrayList<Integer> d = new ArrayList<>(debug);
+        for(int a = 0; a < d.size(); a++) {
+            System.out.println(cg.getCycle(debug.get(a)));
+            for(int b = a + 1; b < d.size(); b++) {
+                if(cg.isConnected(debug.get(a), d.get(b))) {
+                    System.out.println(debug.get(a) + " and " + d.get(b) + " are connected");
+                }
+            }
+        }
+        System.out.println("debug\n");
         return result;
     }
 
@@ -100,9 +127,9 @@ public class ExactSolver {
     }
 
 
-    public static ArrayList<Integer> findComponent(int index, CycleGraph cg, int maxDepth) {
-        ArrayList<Integer>row = new ArrayList<>();
-        ArrayList<Integer>deep = new ArrayList<>();
+    public static TreeSet<Integer> findComponent(int index, CycleGraph cg, int maxDepth) {
+        TreeSet<Integer>row = new TreeSet<>();
+        TreeSet<Integer>deep = new TreeSet<>();
         int dist[] = null;
         if (maxDepth != -1) {
                 dist = new int[cg.getNumVertices()];
@@ -128,7 +155,7 @@ public class ExactSolver {
                     queue.offer(v);
                     if(maxDepth != -1) {
                         dist[v] = depth;
-                        if(depth == maxDepth) {
+                        if(depth == maxDepth && cg.getCycle(v).weight(cg) == cg.getCycle(u).weight(cg)) {
                             deep.add(v);
                         }
                     }
@@ -142,12 +169,12 @@ public class ExactSolver {
         return row;
     }
 
-    public static ArrayList<Integer> mirror(CycleGraph g, ArrayList<Integer> comp, TreeSet<Integer> remove, int v) {
-        ArrayList<Integer> distTwo = findComponent(v, g, 2);
+    public static TreeSet<Integer> mirror(CycleGraph g, TreeSet<Integer> comp, TreeSet<Integer> remove, int v) {
+        TreeSet<Integer> distTwo = findComponent(v, g, 2);
         TreeSet<Integer> Nv = new TreeSet<>(g.neighbors(v));
         TreeSet<Integer> Nu;
         TreeSet<Integer> remain;
-        ArrayList<Integer> result = new ArrayList<>();
+        TreeSet<Integer> result = new TreeSet<>();
         for(Integer u: distTwo) {
             Nu = new TreeSet<>(g.neighbors(u));
             Nv.removeAll(Nu);
@@ -173,14 +200,14 @@ public class ExactSolver {
         return result;
     }
 
-    public static Integer dps(CycleGraph g, ArrayList<Integer> comp, TreeSet<Integer> remove) {
-        if(comp == null || comp.size() == 0 ||comp.get(0) == null) {
+    public static Integer dps(CycleGraph g, TreeSet<Integer> comp, TreeSet<Integer> remove) {
+        if(comp == null || comp.size() == 0) {
             //System.out.println("base case");
             return 0;
         }
-        int v = comp.get(0);
+        int v = comp.pollFirst();
         //System.out.println(v);
-        ArrayList<Integer> neig = new ArrayList<>();
+        TreeSet<Integer> neig = new TreeSet<>();
 
         //System.out.println("queue start");
         neig.add(v);
@@ -194,17 +221,15 @@ public class ExactSolver {
         if(!memo.containsKey(comp)) {
             //System.out.println("no memo before");
             int takeV, notTakeV;
-            comp.remove(new Integer(v));
-            ArrayList<Integer> mirrors = mirror(g, comp, remove, v);
-            if(mirrors != null && mirrors.size() != 0) {
-                //System.out.println(mirrors.size());
-            }
+            comp.remove(v);
+            TreeSet<Integer> mirrors = mirror(g, comp, remove, v);
+
             comp.removeAll(mirrors);
-            ArrayList<Integer> removeV = new ArrayList<>(comp);
+            TreeSet<Integer> removeV = new TreeSet<>(comp);
             comp.add(v);
             comp.addAll(mirrors);
             comp.removeAll(neig);
-            ArrayList<Integer> removeVNeg = new ArrayList<>(comp);
+            TreeSet<Integer> removeVNeg = new TreeSet<>(comp);
             comp.addAll(neig);
             if(memo.containsKey(removeV)) {
                 notTakeV = memo.get(removeV);
@@ -226,6 +251,7 @@ public class ExactSolver {
                 memo.put(comp, takeV);
                 track.put(comp, removeVNeg);
                 vertices.put(comp, v);
+                //System.out.println("takev is " + v);
                 return takeV;
             }
         }
