@@ -68,18 +68,19 @@ public class Cycle {
 
     public Cycle merge(int[] other) {
         if (vertices == null) return new Cycle(other);
-        int totallength = other.length + vertices.length;
+        int totallength = other.length + original.length;
         if (totallength > 5)
             throw new RuntimeException("merged cycle too long");
-        Arrays.sort(other);
+        int[] copy = other.clone();
+        Arrays.sort(copy);
         for (int v : vertices) {
-            if (contains(other, v)) {
+            if (contains(copy, v)) {
                 return null;
             }
         }
         int[] merged = new int[totallength];
-        System.arraycopy(vertices, 0, merged, 0, vertices.length);
-        System.arraycopy(other, 0, merged, vertices.length, other.length);
+        System.arraycopy(other, 0, merged, 0, other.length);
+        System.arraycopy(original, 0, merged, other.length, original.length);
         return new Cycle(merged);
     }
 

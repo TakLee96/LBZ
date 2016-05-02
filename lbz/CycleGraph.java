@@ -44,7 +44,7 @@ public class CycleGraph extends UndirectedGraph {
             m.init(depth, vertex);
             if (g.isConnected(vertex, root)) {
                 int[] newpath = build(path, depth);
-                cycles.add(new Cycle(newpath.clone()));
+                cycles.add(new Cycle(newpath));
                 m.add(newpath, depth, weight, g);
             }
             if (depth < 4) {
