@@ -38,4 +38,4 @@ clean:
 
 new:
 	$(RM) *.class lbz/*.class
-	javac *.java
+	javac *.java -Xlint:unchecked

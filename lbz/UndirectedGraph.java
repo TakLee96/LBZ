@@ -26,12 +26,12 @@ public class UndirectedGraph {
         return neighbors[v].size();
     }
 
-    public Collection<Integer> neighbors(int v) {
+    public LinkedHashSet<Integer> neighbors(int v) {
         return neighbors[v];
     }
 
     protected LinkedHashSet<Integer> vertices;
-    public Collection<Integer> getVertices() {
+    public LinkedHashSet<Integer> getVertices() {
         return vertices;
     }
 

@@ -46,6 +46,9 @@ public class CycleGraph extends UndirectedGraph {
     public Cycle getCycle(int i) {
         return cycles.get(i);
     }
+    public int weight(int i) {
+        return cycles.get(i).weight(g);
+    }
     public Iterable<Cycle> getCycles() {
         return cycles;
     }
@@ -79,6 +82,24 @@ public class CycleGraph extends UndirectedGraph {
                 }
             }
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public CycleGraph(CycleGraph cg) {
+        super();
+        this.g = cg.g.clone();
+        cycles = new ArrayList<Cycle>(cg.cycles);
+        numVertices = cycles.size();
+        vertices = new LinkedHashSet<Integer>(cg.vertices);
+        neighbors = new LinkedHashSet[numVertices];
+        for (int i = 0; i < numVertices; i++) {
+            neighbors[i] = new LinkedHashSet<Integer>(cg.neighbors[i]);
+        }
+        numEdges = cg.numEdges;
+    }
+
+    public CycleGraph clone() {
+        return new CycleGraph(this);
     }
 
 }
