@@ -26,28 +26,39 @@ public class ExactSolver {
         Set<Integer> set2 = new TreeSet<>();
         //System.out.println("remove dominate");
         for(int i = 0; i < cg.getNumVertices(); i++) {
-                if(remove.contains(i)) {
+            if(remove.contains(i)) {
+                continue;
+            }
+            set1 = new TreeSet<>();
+            set1.addAll(cg.neighbors(i));
+            set1.add(i);
+            for(Integer j: cg.neighbors(i)) {
+                if(remove.contains(j)) {
                     continue;
                 }
-                set1 = new TreeSet<>();
-                set1.addAll(cg.neighbors(i));
-                set1.add(i);
-                for(int j = i + 1; j < cg.getNumVertices(); j++) {
-                    if(remove.contains(j)) {
-                        continue;
-                    }
-                    set2 = new TreeSet<>();
-                    set2.addAll(cg.neighbors(j));
-                    set2.add(j);
-                    if(set2.containsAll(set1) && cg.getCycle(i).weight(cg) == cg.getCycle(j).weight(cg)) {
-                        remove.add(j);
-                        //cg.remove(j);
-                        //System.out.println(cg.getCycle(i));
-                    }
+                set2 = new TreeSet<>();
+                set2.addAll(cg.neighbors(j));
+                set2.add(j);
+                if(set2.containsAll(set1) && cg.getCycle(i).weight(cg) == cg.getCycle(j).weight(cg)) {
+                    remove.add(j);
                 }
-            
+            }
         }
-        ArrayList<Integer> debug = new ArrayList<>();
+//                for(int j = i + 1; j < cg.getNumVertices(); j++) {
+//                    if(remove.contains(j)) {
+//                        continue;
+//                    }
+//                    set2 = new TreeSet<>();
+//                    set2.addAll(cg.neighbors(j));
+//                    set2.add(j);
+//                    if(set2.containsAll(set1) && cg.getCycle(i).weight(cg) == cg.getCycle(j).weight(cg)) {
+//                        remove.add(j);
+//                        //cg.remove(j);
+//                        //System.out.println(cg.getCycle(i));
+//                    }
+//                }
+            
+        //ArrayList<Integer> debug = new ArrayList<>();
         //System.out.println("remove cycle");
         for(int i = 0; i < cg.getNumVertices(); i++) {
             if (cg.getNumNeighbors(i) == 0) {
@@ -56,7 +67,7 @@ public class ExactSolver {
                 //System.out.println(i);
                 remove.add(i);
                 cg.remove(i);
-                debug.add(i);
+                //debug.add(i);
             }
         }
         //System.out.println();
@@ -87,7 +98,7 @@ public class ExactSolver {
 //            for(Integer ac: comp) {
 //                System.out.println(cg.getCycle(ac));
 //            }
-            visitInitialize(remove);
+            //visitInitialize(remove);
             temp = comp;
             dps(cg, comp, remove);
             //System.out.println("finish dps");
@@ -223,12 +234,12 @@ public class ExactSolver {
         TreeSet<Integer> neig = new TreeSet<>();
 
         //System.out.println("queue start");
-        neig.add(v);
-        for (int j : g.neighbors(v)) {
-            if(comp.contains(j)) {
-                neig.add(j);
-            }
-        }
+//        neig.add(v);
+//        for (int j : g.neighbors(v)) {
+//            if(comp.contains(j)) {
+//                neig.add(j);
+//            }
+//        }
         //System.out.println("vertex v is " + v);
         //System.out.println("memo check");
         if(!memo.containsKey(comp)) {
@@ -240,7 +251,14 @@ public class ExactSolver {
             TreeSet<Integer> removeV = new TreeSet<>(comp);
             comp.add(v);
             comp.addAll(mirrors);
-            comp.removeAll(neig);
+            neig.add(v);
+            for (int j : g.neighbors(v)) {
+                if(comp.contains(j)) {
+                    neig.add(j);
+                    comp.remove(j);
+                }
+            }
+            //comp.removeAll(neig);
             TreeSet<Integer> removeVNeg = new TreeSet<>(comp);
 //            System.out.println("removeV");
 //            for(Integer abc: removeV) {

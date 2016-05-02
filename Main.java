@@ -11,7 +11,7 @@ public class Main {
             return;
         }
         if (args[0].equals("all")) {
-            for (int i = 1; i <= 492; i++) {
+            for (int i = 149; i <= 492; i++) {
                 String infilename = "in/" + i + ".in";
                 String outfilename = "out/" + i + ".out";
                 DonationGraph g = new DonationGraph(infilename);
