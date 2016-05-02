@@ -1,8 +1,9 @@
+import lbz.*;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import lbz.*;
 
 /** Driver class for LBZ searching algorithm.
  * @author Jim Bai, Tak Li, Zirui Zhou */
