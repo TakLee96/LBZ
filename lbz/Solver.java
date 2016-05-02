@@ -22,13 +22,16 @@ public class Solver {
         }
         try {
             CycleGraph cg = new CycleGraph(g.clone());
+            if (cg.dead) {
+                throw new RuntimeException();
+            }
             if (cg.getNumVertices() > Constants.maxExactCycle) {
                 if (!silent) System.out.print("[ApprxSolver] ");
                 solution = ApproxSolver.solve(cg);
             } else {
                if (!silent) System.out.print("[ExactSolver] ");
-               isbest = true;
                solution = ExactSolver.solve(cg);
+               isbest = true;
             }
             return solution;
         } catch (Exception e) {
