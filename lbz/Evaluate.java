@@ -9,7 +9,7 @@ public class Evaluate {
     public static int score(DonationGraph g, Iterable<Cycle> cycles) {
         int maxscore = g.getNumVertices() + g.getNumChildren();
         int total = 0;
-        boolean repeat = false;
+        boolean wrong = false;
         HashMap<Integer, Cycle> sanity = new HashMap<Integer, Cycle>();
         for (Cycle c : cycles) {
             for (int v : c.getVertices()) {
@@ -18,13 +18,16 @@ public class Evaluate {
                 } else {
                     System.out.println(sanity.get(v));
                     System.out.println(c);
-                    repeat = true;
+                    wrong = true;
                     System.out.println("----REPETITION----");
                 }
             }
+            if (!c.debugCheckExistence(g)) {
+                wrong = true;
+            }
             total += c.weight(g);
         }
-        if (repeat) {
+        if (wrong) {
             return 213;
         }
         return total - maxscore;

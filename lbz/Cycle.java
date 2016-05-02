@@ -92,6 +92,17 @@ public class Cycle {
         return sb.toString();
     }
 
+    public boolean debugCheckExistence(DonationGraph g) {
+        int j;
+        for (int i = 0; i < vertices.length - 1; i++) {
+            j = i + 1 % vertices.length;
+            if (!g.isConnected(vertices[i], vertices[j])) {
+                System.out.println("In cycle [" + toString() + "], edge (" +
+                vertices[i] + "->" + vertices[j] + ") does not exist in original graph");
+            }
+        }
+    }
+
     public static void output(Iterable<Cycle> cycles, DonationGraph g,
                               String filename) {
         StringBuilder sb = new StringBuilder();
