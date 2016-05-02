@@ -39,21 +39,6 @@ public class OurSolver {
         return new ArrayList<Cycle>(cycles);
     }
 
-    private static int[] build(int[] path, int depth) {
-        int[] result = new int[depth + 1];
-        System.arraycopy(path, 0, result, 0, depth + 1);
-        return result;
-    }
-
-    private static boolean contains(int[] path, int elem, int depth) {
-        for (int i = 0; i < depth; i++) {
-            if (path[i] == elem) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private static boolean flag = false;
     private static void findCycle(
         DonationGraph g, int vertex, int root, int weight, int depth,
@@ -66,8 +51,8 @@ public class OurSolver {
         } else {
             m.init(depth, vertex);
             if (g.isConnected(vertex, root)) {
-                int[] newpath = build(path, depth);
-                Cycle c = new Cycle(newpath.clone());
+                int[] newpath = ArrayUtils.build(path, depth);
+                Cycle c = new Cycle(newpath);
                 if (c.weight(g) > 5 || c.getVertices().length == 5) {
                     flag = true;
                     cycles.clear();
@@ -78,7 +63,7 @@ public class OurSolver {
             }
             if (depth < 4) {
                 for (int u : g.neighbors(vertex)) {
-                    if (!contains(path, u, depth)) {
+                    if (!ArrayUtils.contains(path, u, depth)) {
                         findCycle(g, u, root, weight, depth + 1, path, cycles, m);
                     }
                 }

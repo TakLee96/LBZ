@@ -18,26 +18,21 @@ public class Cycle {
     };
 
     private int[] vertices;
-    private int[] original;
     public int[] getVertices() {
+        if (vertices == null) return null;
         return vertices.clone();
     }
 
     public Cycle(int[] vs) {
         if (vs != null && vs.length > 5)
             throw new RuntimeException("cycle too long");
-        if (vs != null) {
-            this.original = vs;
-            int[] copy = vs.clone();
-            this.vertices = copy;
-            Arrays.sort(copy);
-        } else {
-            this.original = null;
-            this.vertices = null;
-        }
+        this.vertices = vs;
     }
 
     public int weight(DonationGraph g) {
+        if (vertices == null) {
+            return 0;
+        }
         int total = 0;
         for (int v : vertices) {
             total += (g.isChild(v)) ? 2 : 1;
@@ -46,6 +41,9 @@ public class Cycle {
     }
 
     public int weight(CycleGraph cg) {
+        if (vertices == null) {
+            return 0;
+        }
         int total = 0;
         for (int v : vertices) {
             total += (cg.isChild(v)) ? 2 : 1;
@@ -54,45 +52,22 @@ public class Cycle {
     }
 
     public boolean shareVertex(Cycle other) {
-        for (int v : vertices) {
-            if (Arrays.binarySearch(other.vertices, v) >= 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean contains(int[] arr, int elem) {
-        return Arrays.binarySearch(arr, elem) >= 0;
+        return ArrayUtils.intersect(other.vertices, vertices);
     }
 
     public Cycle merge(int[] other) {
         if (vertices == null) return new Cycle(other);
-        int totallength = other.length + original.length;
-        if (totallength > 5)
+        int length = other.length + vertices.length;
+        if (other.length + vertices.length > 5) {
             throw new RuntimeException("merged cycle too long");
-        int[] copy = other.clone();
-        Arrays.sort(copy);
-        for (int v : vertices) {
-            if (contains(copy, v)) {
-                return null;
-            }
         }
-        int[] merged = new int[totallength];
-        System.arraycopy(other, 0, merged, 0, other.length);
-        System.arraycopy(original, 0, merged, other.length, original.length);
-        return new Cycle(merged);
+        return new Cycle(ArrayUtils.extend(other, vertices));
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null) return false;
-        Cycle other = (Cycle) o;
-        if (vertices == other.vertices) return true;
-        if (vertices.length != other.vertices.length) {
-            return false;
-        }
-        return Arrays.equals(vertices, other.vertices);
+        return ArrayUtils.shiftEquals(((Cycle) o).vertices, vertices);
     }
 
     @Override
@@ -107,10 +82,10 @@ public class Cycle {
 
     @Override
     public String toString() {
-        if (original == null) return "null";
+        if (vertices == null) return "null";
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < original.length; i++) {
-            sb.append(original[i]);
+        for (int i = 0; i < vertices.length; i++) {
+            sb.append(vertices[i]);
             sb.append(" ");
         }
         sb.delete(sb.length() - 1, sb.length());

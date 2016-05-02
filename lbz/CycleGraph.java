@@ -18,21 +18,6 @@ public class CycleGraph extends UndirectedGraph {
         return new ArrayList<Cycle>(cycles);
     }
 
-    private static int[] build(int[] path, int depth) {
-        int[] result = new int[depth + 1];
-        System.arraycopy(path, 0, result, 0, depth + 1);
-        return result;
-    }
-
-    private static boolean contains(int[] path, int elem, int depth) {
-        for (int i = 0; i < depth; i++) {
-            if (path[i] == elem) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private static void findCycle(
         DonationGraph g, int vertex, int root, int weight, int depth,
         int[] path, HashSet<Cycle> cycles, Memo m) {
@@ -43,13 +28,13 @@ public class CycleGraph extends UndirectedGraph {
         } else {
             m.init(depth, vertex);
             if (g.isConnected(vertex, root)) {
-                int[] newpath = build(path, depth);
+                int[] newpath = ArrayUtils.build(path, depth);
                 cycles.add(new Cycle(newpath));
                 m.add(newpath, depth, weight, g);
             }
             if (depth < 4) {
                 for (int u : g.neighbors(vertex)) {
-                    if (!contains(path, u, depth)) {
+                    if (!ArrayUtils.contains(path, u, depth)) {
                         findCycle(g, u, root, weight, depth + 1, path, cycles, m);
                     }
                 }
