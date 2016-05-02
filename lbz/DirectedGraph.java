@@ -81,15 +81,14 @@ public class DirectedGraph {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                if (isConnected(i, j)) {
-                    sb.append("1 ");
-                } else {
-                    sb.append("0 ");
+        for (int i : vertices) {
+            if (neighbors[i].size() != 0) {
+                sb.append(i + " -> ");
+                for (int n : neighbors[i]) {
+                    sb.append(n + " ");
                 }
+                sb.append("\n");
             }
-            sb.append("\n");
         }
         return sb.toString();
     }

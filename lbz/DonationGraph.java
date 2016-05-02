@@ -15,6 +15,9 @@ public class DonationGraph extends DirectedGraph {
     public int getNumChildren() {
         return children.size();
     }
+    public int weight(int v) {
+        return (isChild(v) ? 2 : 1);
+    }
 
     private static LinkedHashSet<Integer> kids;
     private static boolean[][] getAdjacencyFromFile(String filename) {

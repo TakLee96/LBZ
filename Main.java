@@ -32,17 +32,23 @@ public class Main {
             System.out.println("Please enter instance number [0-492]");
             return;
         }
-        silent = args.length == 2 && args[1].equals("-q");
-        if (args[0].equals("all")) {
-            for (int i = 1; i <= 492; i++) {
-                test(i);
+        silent = args.length >= 2 && args[1].equals("-q");
+        int repeat = (args.length == 3) ? Integer.parseInt(args[2]) : 1;
+        for (int j = 0; j < repeat; j++) {
+            if (repeat > 1) {
+                System.out.println("Iteration #" + j);
             }
-        } else if (args.length == 2) {
-            for (int i = Integer.parseInt(args[0]); i <= Integer.parseInt(args[1]); i++) {
-                test(i);
+            if (args[0].equals("all")) {
+                for (int i = 1; i <= 492; i++) {
+                    test(i);
+                }
+            } else if (args.length == 2) {
+                for (int i = Integer.parseInt(args[0]); i <= Integer.parseInt(args[1]); i++) {
+                    test(i);
+                }
+            } else {
+                test(Integer.parseInt(args[0]));
             }
-        } else {
-            test(Integer.parseInt(args[0]));
         }
     }
 }

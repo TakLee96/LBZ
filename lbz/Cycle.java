@@ -38,7 +38,7 @@ public class Cycle {
         }
         int total = 0;
         for (int v : vertices) {
-            total += (g.isChild(v)) ? 2 : 1;
+            total += g.weight(v);
         }
         return total;
     }

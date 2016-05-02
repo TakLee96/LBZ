@@ -10,8 +10,9 @@ public class TestCycle {
             return;
         }
         DonationGraph g = new DonationGraph("in/" + args[0] + ".in");
-        CycleGraph cg = new CycleGraph(g);
-        System.out.println("# Cycles: " + cg.getNumVertices());
+        // CycleGraph cg = new CycleGraph(g);
+        // System.out.println("# Cycles: " + cg.getNumVertices());
+        System.out.println(g);
     }
 
 }

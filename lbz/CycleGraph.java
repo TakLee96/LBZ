@@ -19,6 +19,8 @@ public class CycleGraph extends UndirectedGraph {
     private void findCycle(
         int vertex, int root, int weight, int depth,
         int[] path, LinkedHashSet<Cycle> cycles, Memo m) {
+        if (t.interrupted())
+            throw new RuntimeException("fucked");
         if (cycles.size() > Constants.maxSearchCycle)
             throw new RuntimeException("cycle extraction failed");
         weight += (g.isChild(vertex)) ? 2 : 1;
@@ -58,11 +60,19 @@ public class CycleGraph extends UndirectedGraph {
         return g.isChild(v);
     }
 
+    public boolean dead = false;
+    private Thread t;
     @SuppressWarnings("unchecked")
     public CycleGraph(DonationGraph g) {
         super();
         this.g = g;
-        cycles = extractCycles();
+        this.t = Thread.currentThread();
+        try {
+            cycles = extractCycles();
+        } catch (Exception e) {
+            dead = true;
+            return;
+        }
         numVertices = cycles.size();
         vertices = new LinkedHashSet<Integer>();
         neighbors = new LinkedHashSet[numVertices];
@@ -73,6 +83,10 @@ public class CycleGraph extends UndirectedGraph {
         Cycle cyclei = null, cyclej = null;
         for (int i = 0; i < numVertices; i++) {
             for (int j = i + 1; j < numVertices; j++) {
+                if (t.interrupted()) {
+                    dead = true;
+                    return;
+                }
                 cyclei = cycles.get(i);
                 cyclej = cycles.get(j);
                 if (cyclei.shareVertex(cyclej)) {

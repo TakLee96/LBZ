@@ -4,15 +4,19 @@ import java.util.LinkedHashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.TreeSet;
+import java.util.ArrayList;
 
 /** The exact solver for MWIS problem by Tak.
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class ExactSolverTak {
 
-    CycleGraph cg;
-    LinkedHashSet<Cycle> result;
+    private CycleGraph cg;
+    private LinkedHashSet<Cycle> result;
+    private Thread t;
+
     private ExactSolverTak(CycleGraph cg) {
         this.cg = cg;
+        this.t = Thread.currentThread();
 
         LinkedList<TreeSet<Integer>> ccs = new LinkedList<>();
         TreeSet<Integer> visited;
@@ -39,16 +43,18 @@ public class ExactSolverTak {
             effective.removeAll(visited);
         }
 
-        System.out.println("# of Connected Component: " + ccs.size());
-        for (TreeSet<Integer> cc : ccs) {
-            System.out.print(cc.size() + " ");
-        }
-        System.out.println();
+        //System.out.println("# of Connected Component: " + ccs.size());
+        //for (TreeSet<Integer> cc : ccs) {
+        //    System.out.print(cc.size() + " ");
+        //}
+        //System.out.println();
 
         LinkedHashSet<Cycle> solution = new LinkedHashSet<Cycle>();
         for (TreeSet<Integer> cc : ccs) {
-            solution.addAll(solve(cc));
-            System.out.println("BOOM");
+            LinkedHashSet<Cycle> solved = solve(cc);
+            if (solved == null) return;
+            solution.addAll(solved);
+            //System.out.println("BOOM");
         }
         result = solution;
     }
@@ -80,7 +86,7 @@ public class ExactSolverTak {
             }
         }
 
-        System.out.println("removed " + count + " dominance");
+        //System.out.println("removed " + count + " dominance");
     }
 
     private LinkedHashSet<Cycle> solve(TreeSet<Integer> cc) {
@@ -91,7 +97,11 @@ public class ExactSolverTak {
             return result;
         }
         int first = cc.last();
-        return choose(first, cc, new LinkedHashMap<Tuple, LinkedHashSet<Cycle>>());
+        try {
+            return choose(first, cc, new LinkedHashMap<Tuple, LinkedHashSet<Cycle>>());
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private int weight(LinkedHashSet<Cycle> set) {
@@ -122,6 +132,9 @@ public class ExactSolverTak {
 
     private LinkedHashSet<Cycle> choose(int v, TreeSet<Integer> rest,
         LinkedHashMap<Tuple, LinkedHashSet<Cycle>> memo) {
+        if (t.interrupted()) {
+            throw new RuntimeException("fucked");
+        }
         if (rest.size() == 1) {
             LinkedHashSet<Cycle> found = new LinkedHashSet<Cycle>();
             found.add(cg.getCycle(v));
