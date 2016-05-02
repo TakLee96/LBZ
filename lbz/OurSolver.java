@@ -92,8 +92,6 @@ public class OurSolver {
     }
 
     private static int rank(DonationGraph g, int v) {
-        //return 100 * (g.isChild(v) ? 2 : 1) * g.getNumParents(v) / (g.getNumNeighbors(v) + 1);
-        //return random.nextInt(10000000);
         int ntotal = 0;
         for (int n : g.neighbors(v)) {
             ntotal += g.weight(n);
