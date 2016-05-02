@@ -25,28 +25,28 @@ public class ExactSolver {
         Set<Integer> set1 = new TreeSet<>();
         Set<Integer> set2 = new TreeSet<>();
         System.out.println("remove dominate");
-//        for(int i = 0; i < cg.getNumVertices(); i++) {
-//                if(remove.contains(i)) {
-//                    continue;
-//                }
-//                set1 = new TreeSet<>();
-//                set1.addAll(cg.neighbors(i));
-//                set1.add(i);
-//                for(int j = i + 1; j < cg.getNumVertices(); j++) {
-//                    if(remove.contains(j)) {
-//                        continue;
-//                    }
-//                    set2 = new TreeSet<>();
-//                    set2.addAll(cg.neighbors(j));
-//                    set2.add(j);
-//                    if(set2.containsAll(set1) && cg.getCycle(i).weight(cg) == cg.getCycle(j).weight(cg)) {
-//                        remove.add(j);
-//                        //cg.remove(j);
-//                        System.out.println(cg.getCycle(j));
-//                    }
-//                }
-//            
-//        }
+        for(int i = 0; i < cg.getNumVertices(); i++) {
+                if(remove.contains(i)) {
+                    continue;
+                }
+                set1 = new TreeSet<>();
+                set1.addAll(cg.neighbors(i));
+                set1.add(i);
+                for(int j = i + 1; j < cg.getNumVertices(); j++) {
+                    if(remove.contains(j)) {
+                        continue;
+                    }
+                    set2 = new TreeSet<>();
+                    set2.addAll(cg.neighbors(j));
+                    set2.add(j);
+                    if(set1.containsAll(set2) && cg.getCycle(i).weight(cg) == cg.getCycle(j).weight(cg)) {
+                        remove.add(j);
+                        //cg.remove(j);
+                        System.out.println(cg.getCycle(i));
+                    }
+                }
+            
+        }
         ArrayList<Integer> debug = new ArrayList<>();
         System.out.println("remove cycle");
         for(int i = 0; i < cg.getNumVertices(); i++) {
