@@ -22,6 +22,9 @@ public class Solver {
         }
         try {
             CycleGraph cg = new CycleGraph(g.clone());
+            if(cg.dead) {
+                throw new RuntimeException();
+            }
             if (cg.getNumVertices() > Constants.maxExactCycle) {
                 if (!silent) System.out.print("[ApprxSolver] ");
                 solution = ApproxSolver.solve(cg);
