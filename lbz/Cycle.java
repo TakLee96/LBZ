@@ -76,9 +76,10 @@ public class Cycle {
     @Override
     public int hashCode() {
         if (vertices == null) return 0;
+        int[] shifted = ArrayUtils.shiftedCopy(vertices);
         int product = 1;
-        for (int i = 0; i < vertices.length; i++) {
-            product += (vertices[i] + 1) * rand[i];
+        for (int i = 0; i < shifted.length; i++) {
+            product += (shifted[i] + 1) * rand[i];
         }
         return product;
     }

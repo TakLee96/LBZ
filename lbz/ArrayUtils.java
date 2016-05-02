@@ -4,6 +4,23 @@ package lbz;
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class ArrayUtils {
 
+    public static int[] shiftedCopy(int[] a) {
+        if (a == null) return null;
+        int maxIndex = 0;
+        int maxElem = -1;
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] > maxElem) {
+                maxIndex = i;
+                maxElem = a[i];
+            }
+        }
+        int[] copy = new int[a.length];
+        for (int j = 0; j < a.length; j++) {
+            copy[j] = a[(j + maxIndex) % a.length];
+        }
+        return copy;
+    }
+
     private static int circularGet(int[] a, int i) {
         return a[i % a.length];
     }
@@ -93,10 +110,9 @@ public class ArrayUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(shiftEquals(
-            new int[]{ 1, 2, 3 },
-            new int[]{ 2, 3, 1 }
-        ));
+        print(shiftedCopy(new int[]{ 1, 3, 2, 4 }));
+        print(shiftedCopy(new int[]{ 3, 2, 4, 1 }));
+        print(shiftedCopy(new int[]{ 2, 4, 1, 3 }));
     }
 
 
