@@ -79,13 +79,17 @@ public class ArrayUtils {
         return result;
     }
 
-    public static String toString(int[] arr) {
-        if (arr == null) return "null";
+    public static void print(int[] arr) {
+        if (arr == null) {
+            System.out.print("null");
+            return;
+        }
         String result = "[";
         for (int a : arr) {
             result += a + ",";
         }
-        return result + "]";
+        result += "]";
+        System.out.println(result);
     }
 
     public static void main(String[] args) {

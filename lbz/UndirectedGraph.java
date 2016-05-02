@@ -1,6 +1,6 @@
 package lbz;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Collection;
 
 /** A generic graph.
@@ -17,7 +17,7 @@ public class UndirectedGraph {
         return numEdges;
     }
 
-    protected HashSet<Integer>[] neighbors;
+    protected LinkedHashSet<Integer>[] neighbors;
     public boolean isConnected(int u, int v) {
         return neighbors[u].contains(v);
     }
@@ -30,7 +30,7 @@ public class UndirectedGraph {
         return neighbors[v];
     }
 
-    protected HashSet<Integer> vertices;
+    protected LinkedHashSet<Integer> vertices;
     public Collection<Integer> getVertices() {
         return vertices;
     }

@@ -35,3 +35,7 @@ clean:
 	$(RM) sentinel *.class *~
 	$(RM) lbz/*.class
 	$(RM) out/*.out
+
+new:
+	$(RM) *.class lbz/*.class
+	javac *.java

@@ -13,7 +13,7 @@ public class Solver {
             return solution;
         }
         try {
-            CycleGraph cg = new CycleGraph(g);
+            CycleGraph cg = new CycleGraph(g.clone());
             if (cg.getNumVertices() > Constants.maxExactCycle) {
                 System.out.print("[ApprxSolver] ");
                 solution = ApproxSolver.solve(cg);

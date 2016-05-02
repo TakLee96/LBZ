@@ -61,6 +61,9 @@ public class Cycle {
         if (other.length + vertices.length > 5) {
             throw new RuntimeException("merged cycle too long");
         }
+        if (ArrayUtils.intersect(vertices, other)) {
+            return null;
+        }
         return new Cycle(ArrayUtils.extend(other, vertices));
     }
 
@@ -176,6 +179,18 @@ public class Cycle {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public static void main(String[] args) {
+        Cycle a = new Cycle(new int[]{ 1, 2, 3 });
+        Cycle b = new Cycle(new int[]{ 1, 2, 3 });
+        Cycle c = new Cycle(new int[]{ 2, 3, 1 });
+        Cycle d = new Cycle(new int[]{ 2, 3 }).merge(new int[]{ 1 });
+        Cycle e = new Cycle(null).merge(a.vertices);
+        System.out.println(a.equals(b));
+        System.out.println(b.equals(c));
+        System.out.println(c.equals(d));
+        System.out.println(d.equals(e));
     }
 
 }

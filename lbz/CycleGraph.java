@@ -1,14 +1,14 @@
 package lbz;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 /** A graph of cycle in DonationGraph.
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class CycleGraph extends UndirectedGraph {
 
     private static ArrayList<Cycle> extractCycles(DonationGraph g) {
-        HashSet<Cycle> cycles = new HashSet<Cycle>();
+        LinkedHashSet<Cycle> cycles = new LinkedHashSet<Cycle>();
         int[] path = new int[5];
         for (int i : g.getVertices()) {
             findCycle(g, i, i, 0, 0, path, cycles, new Memo(g.getNumVertices()));
@@ -20,7 +20,7 @@ public class CycleGraph extends UndirectedGraph {
 
     private static void findCycle(
         DonationGraph g, int vertex, int root, int weight, int depth,
-        int[] path, HashSet<Cycle> cycles, Memo m) {
+        int[] path, LinkedHashSet<Cycle> cycles, Memo m) {
         weight += (g.isChild(vertex)) ? 2 : 1;
         path[depth] = vertex;
         if (m.contains(vertex, depth)) {
@@ -61,10 +61,10 @@ public class CycleGraph extends UndirectedGraph {
         this.g = g;
         cycles = extractCycles(g);
         numVertices = cycles.size();
-        vertices = new HashSet<Integer>();
-        neighbors = new HashSet[numVertices];
+        vertices = new LinkedHashSet<Integer>();
+        neighbors = new LinkedHashSet[numVertices];
         for (int i = 0; i < numVertices; i++) {
-            neighbors[i] = new HashSet<Integer>();
+            neighbors[i] = new LinkedHashSet<Integer>();
             vertices.add(i);
         }
         Cycle cyclei = null, cyclej = null;

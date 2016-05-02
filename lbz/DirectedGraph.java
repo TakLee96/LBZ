@@ -1,6 +1,6 @@
 package lbz;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Collection;
 
 /** A generic graph.
@@ -10,12 +10,12 @@ public class DirectedGraph {
     @SuppressWarnings("unchecked")
     public DirectedGraph(boolean[][] adjacency) {
         numVertices = adjacency.length;
-        neighbors = new HashSet[numVertices];
-        parents = new HashSet[numVertices];
-        vertices = new HashSet<Integer>();
+        neighbors = new LinkedHashSet[numVertices];
+        parents = new LinkedHashSet[numVertices];
+        vertices = new LinkedHashSet<Integer>();
         for (int i = 0; i < numVertices; i++) {
-            neighbors[i] = new HashSet<Integer>();
-            parents[i] = new HashSet<Integer>();
+            neighbors[i] = new LinkedHashSet<Integer>();
+            parents[i] = new LinkedHashSet<Integer>();
             vertices.add(i);
         }
         for (int i = 0; i < numVertices; i++) {
@@ -39,8 +39,8 @@ public class DirectedGraph {
         return numEdges;
     }
 
-    protected HashSet<Integer>[] neighbors;
-    protected HashSet<Integer>[] parents;
+    protected LinkedHashSet<Integer>[] neighbors;
+    protected LinkedHashSet<Integer>[] parents;
     public boolean isConnected(int u, int v) {
         return neighbors[u].contains(v);
     }
@@ -61,7 +61,7 @@ public class DirectedGraph {
         return parents[v];
     }
 
-    protected HashSet<Integer> vertices;
+    protected LinkedHashSet<Integer> vertices;
     public Collection<Integer> getVertices() {
         return vertices;
     }

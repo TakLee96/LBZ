@@ -1,7 +1,7 @@
 package lbz;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -14,7 +14,7 @@ public class OurSolver {
             return null;
         }
 
-        HashSet<Cycle> cycles = new HashSet<Cycle>();
+        LinkedHashSet<Cycle> cycles = new LinkedHashSet<Cycle>();
         int[] path = new int[5];
         findCycle(g, v, v, 0, 0, path, cycles, new Memo(g.getNumVertices()));
 
@@ -31,7 +31,7 @@ public class OurSolver {
 
 
     private static ArrayList<Cycle> extractCycles(DonationGraph g) {
-        HashSet<Cycle> cycles = new HashSet<Cycle>();
+        LinkedHashSet<Cycle> cycles = new LinkedHashSet<Cycle>();
         int[] path = new int[5];
         for (int i : g.getVertices()) {
             findCycle(g, i, i, 0, 0, path, cycles, new Memo(g.getNumVertices()));
@@ -42,7 +42,7 @@ public class OurSolver {
     private static boolean flag = false;
     private static void findCycle(
         DonationGraph g, int vertex, int root, int weight, int depth,
-        int[] path, HashSet<Cycle> cycles, Memo m) {
+        int[] path, LinkedHashSet<Cycle> cycles, Memo m) {
         if (flag) return;
         weight += (g.isChild(vertex)) ? 2 : 1;
         path[depth] = vertex;
@@ -99,9 +99,9 @@ public class OurSolver {
             pq.offer(tuples[v]);
         }
 
-        Tuple elem; HashSet<Integer> changed; Cycle c;
+        Tuple elem; LinkedHashSet<Integer> changed; Cycle c;
         while (!pq.isEmpty()) {
-            changed = new HashSet<Integer>();
+            changed = new LinkedHashSet<Integer>();
             elem = pq.poll();
             c = largestCycle(g, elem.index);
             if (c != null) {

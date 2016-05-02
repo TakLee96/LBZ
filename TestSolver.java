@@ -15,7 +15,7 @@ import lbz.*;
              case "o": solution = OurSolver.solve(g); break;
              case "e": solution = ExactSolver.solve(new CycleGraph(g)); break;
              case "a": solution = ApproxSolver.solve(new CycleGraph(g)); break;
-             default: System.out.println("Usage: java TestSolver [o/e/a] [0-492]");
+             default: System.out.println("Usage: java TestSolver [o/e/a] [0-492]"); return;
          }
          String outfilename = "out/" + args[1] + "." + args[0] + ".out";
          Cycle.output(solution, g, outfilename);

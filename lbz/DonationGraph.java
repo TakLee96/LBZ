@@ -1,6 +1,6 @@
 package lbz;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
@@ -8,7 +8,7 @@ import java.io.BufferedReader;
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class DonationGraph extends DirectedGraph {
 
-    private HashSet<Integer> children;
+    private LinkedHashSet<Integer> children;
     public boolean isChild(int v) {
         return children.contains(v);
     }
@@ -16,7 +16,7 @@ public class DonationGraph extends DirectedGraph {
         return children.size();
     }
 
-    private static HashSet<Integer> kids;
+    private static LinkedHashSet<Integer> kids;
     private static boolean[][] getAdjacencyFromFile(String filename) {
         boolean[][] connected = null;
         try {
@@ -24,7 +24,7 @@ public class DonationGraph extends DirectedGraph {
             int numv = Integer.parseInt(br.readLine().trim());
 
             String line = br.readLine().trim();
-            kids = new HashSet<Integer>();
+            kids = new LinkedHashSet<Integer>();
             if (line.length() != 0) {
                 String[] cvs = line.split(" ");
                 for (int i = 0; i < cvs.length; i++) {

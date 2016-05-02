@@ -1,22 +1,22 @@
 package lbz;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 /** Supporting data structure for cycle finding.
  * @author Jim Bai, Tak Li, Zirui Zhou */
 public class Memo {
 
-    private HashSet<Cycle>[][] memo;
+    private LinkedHashSet<Cycle>[][] memo;
 
     @SuppressWarnings("unchecked")
     public Memo(int v) {
-        memo = new HashSet[5][v];
+        memo = new LinkedHashSet[5][v];
     }
 
     public void init(int depth, int vertex) {
         for (int i = depth; i < 5; i++) {
             if (memo[i][vertex] == null) {
-                memo[i][vertex] = new HashSet<Cycle>();
+                memo[i][vertex] = new LinkedHashSet<Cycle>();
             }
         }
     }
@@ -25,7 +25,7 @@ public class Memo {
         return memo[depth][vertex] != null;
     }
 
-    public void build(int vertex, int depth, int[] path, int weight, HashSet<Cycle> cycles) {
+    public void build(int vertex, int depth, int[] path, int weight, LinkedHashSet<Cycle> cycles) {
         for (int i = depth; i < 5; i++) {
             for (Cycle c : memo[i][vertex]) {
                 int[] np = ArrayUtils.build(path, depth);

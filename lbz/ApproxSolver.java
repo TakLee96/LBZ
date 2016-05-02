@@ -1,6 +1,6 @@
 package lbz;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -36,9 +36,9 @@ public class ApproxSolver {
             pq.offer(tuples[v]);
         }
 
-        HashSet<Integer> changed; Tuple elem; int v;
+        LinkedHashSet<Integer> changed; Tuple elem; int v;
         while (!pq.isEmpty()) {
-            changed = new HashSet<Integer>();
+            changed = new LinkedHashSet<Integer>();
             elem = pq.poll();
             solution.add(cg.getCycle(elem.index));
 
