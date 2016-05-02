@@ -234,31 +234,31 @@ public class ExactSolver {
         TreeSet<Integer> neig = new TreeSet<>();
 
         //System.out.println("queue start");
-//        neig.add(v);
-//        for (int j : g.neighbors(v)) {
-//            if(comp.contains(j)) {
-//                neig.add(j);
-//            }
-//        }
+        neig.add(v);
+        for (int j : g.neighbors(v)) {
+            if(comp.contains(j)) {
+                neig.add(j);
+            }
+        }
         //System.out.println("vertex v is " + v);
         //System.out.println("memo check");
         if(!memo.containsKey(comp)) {
             //System.out.println("no memo before");
             int takeV, notTakeV;
-            comp.remove(v);
             TreeSet<Integer> mirrors = mirror(g, comp, remove, v);
+            comp.remove(v);
             comp.removeAll(mirrors);
             TreeSet<Integer> removeV = new TreeSet<>(comp);
             comp.add(v);
             comp.addAll(mirrors);
             neig.add(v);
-            for (int j : g.neighbors(v)) {
-                if(comp.contains(j)) {
-                    neig.add(j);
-                    comp.remove(j);
-                }
-            }
-            //comp.removeAll(neig);
+//            for (int j : g.neighbors(v)) {
+//                if(comp.contains(j)) {
+//                    neig.add(j);
+//                    comp.remove(j);
+//                }
+//            }
+            comp.removeAll(neig);
             TreeSet<Integer> removeVNeg = new TreeSet<>(comp);
 //            System.out.println("removeV");
 //            for(Integer abc: removeV) {
