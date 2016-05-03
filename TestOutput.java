@@ -12,6 +12,7 @@ import java.util.ArrayList;
          try {
              BufferedReader br = new BufferedReader(new FileReader("solutions.out"));
              boolean error = false;
+             int total = 0;
              for (int i = 1; i <= 492; i++) {
                  String line = br.readLine().trim();
                  if (line.equals("None")) {
@@ -31,8 +32,11 @@ import java.util.ArrayList;
                  if (score > 0) {
                      error = true;
                  }
+                 total += score;
              }
-             if (!error) System.out.println("OK");
+             if (!error) {
+                 System.out.println("OK [score=" + total + "]");
+             }
              br.close();
          } catch (Exception e) {
              e.printStackTrace();
